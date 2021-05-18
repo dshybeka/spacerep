@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="ISO-8859-1"/>
+  <link href="css/styles.css" rel="stylesheet"/>
+  <title>SpaceRep list</title>
+</head>
+<body>
+<h4>List of learning entries</h4>
+
+<table>
+
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Scheduled</th>
+    <th>Status</th>
+    <th>Attempt</th>
+    <th>Notes</th>
+  </tr>
+
+  <tr th:each="entry : ${entries}">
+    <td th:text="${entry.id}"></td>
+    <td th:text="${entry.name}"></td>
+    <td th:text="${entry.scheduledFor}"></td>
+    <td th:text="${entry.status}"></td>
+    <td th:text="${entry.attempt}"></td>
+    <td th:text="${entry.notes}"></td>
+  </tr>
+
+</table>
+
+</body>
+</html>

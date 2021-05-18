@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package proto.org.spacerep;
+
+option java_multiple_files = true;
+option java_package = "org.spacerep.protos";
+option java_outer_classname = "SpaceRep";
+
+import "google/protobuf/timestamp.proto";
+
+message SpaceRepStateProto {
+  map<int64, LearningEntryProto> entries = 1;
+}
+
+message LearningEntryProto {
+  int64 id = 1;
+
+  string name = 2;
+
+  string notes = 3;
+
+  repeated string changes = 4;
+
+  google.protobuf.Timestamp created_at = 5;
+
+  google.protobuf.Timestamp updated_at = 6;
+
+  int32 attempt = 7;
+
+  google.protobuf.Timestamp archived_at = 8;
+
+  Status status = 9;
+
+  google.protobuf.Timestamp scheduled_for = 10;
+
+  repeated Mark mark = 11;
+
+  repeated EasinessFactor easiness_factor = 12;
+}
+
+message Mark {
+
+  int32 value = 1;
+
+  int64 date = 2;
+}
+
+message EasinessFactor {
+
+  double value = 1;
+
+  int64 date = 2;
+}
+
+enum Status {
+  UNDEFINED = 0;
+  SCHEDULED = 1;
+  REPEATED = 2;
+  FAILED = 3;
+  ARCHIVED = 4;
+}
