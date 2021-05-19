@@ -1,5 +1,6 @@
 package org.dzianis.spacerep.service;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,10 +44,20 @@ public class SchedulingService {
         Math.min(
             Math.round(previousDelayDays * easinessFactor.getValue()), MAX_SCHEDULE_DELAY_DAYS);
 
-    return timeSource.localDateNow().plusDays(nextDelay);
+    return moveToClosestWorkingDay(timeSource.localDateNow().plusDays(nextDelay));
   }
 
   public LocalDate scheduleOnCreate() {
-    return timeSource.localDateNow().plusDays(SCHEDULE_DELAY_ON_CREATE);
+    return moveToClosestWorkingDay(timeSource.localDateNow().plusDays(SCHEDULE_DELAY_ON_CREATE));
+  }
+
+  private static LocalDate moveToClosestWorkingDay(LocalDate date) {
+    if (DayOfWeek.SATURDAY == date.getDayOfWeek()) {
+      return date.plusDays(2);
+    }
+    if (DayOfWeek.SUNDAY == date.getDayOfWeek()) {
+      return date.plusDays(1);
+    }
+    return date;
   }
 }
