@@ -2,6 +2,7 @@ package org.dzianis.spacerep.model;
 
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
@@ -12,6 +13,13 @@ import org.spacerep.protos.Status;
 @Value
 @Builder(toBuilder = true)
 public class LearningEntry {
+
+  private static final Comparator<EasinessFactor> EASINESS_FACTOR_BY_DATE_DESC =
+      Comparator.comparing(EasinessFactor::getDate).reversed();
+
+  private static final Comparator<Mark> MARK_BY_DATE_DESC =
+      Comparator.comparing(Mark::getDate).reversed();
+
   long id;
 
   String name;
@@ -46,5 +54,27 @@ public class LearningEntry {
 
   public LearningEntry addEasinessFactors(EasinessFactor easinessFactor) {
     return this.toBuilder().easinessFactor(easinessFactor).build();
+  }
+
+  public EasinessFactor getLatestEasinessFactor() {
+    IllegalStateException possibleStateException =
+        new IllegalStateException("Easiness factor is not set for entity: " + id);
+    if (easinessFactors == null) {
+      throw possibleStateException;
+    }
+
+    return easinessFactors.stream()
+        .min(EASINESS_FACTOR_BY_DATE_DESC)
+        .orElseThrow(() -> possibleStateException);
+  }
+
+  public Mark getLatestMark() {
+    IllegalStateException possibleStateException =
+        new IllegalStateException("Mark is not set for entity: " + id);
+    if (easinessFactors == null) {
+      throw possibleStateException;
+    }
+
+    return marks.stream().min(MARK_BY_DATE_DESC).orElseThrow(() -> possibleStateException);
   }
 }

@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
@@ -25,17 +24,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {DaoConfig.class, TestContextConfiguration.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(
+    classes = {DaoConfig.class, TestContextConfiguration.class},
+    loader = AnnotationConfigContextLoader.class)
 class LearningEntryDaoFileImplTest {
-
-  private static final LearningEntryProto ENTRY_1 =
-      LearningEntryProto.newBuilder().setId(1).build();
-  private static final LearningEntryProto ENTRY_2 =
-      LearningEntryProto.newBuilder().setId(2).build();
-  private static final LearningEntryProto ENTRY_3 =
-      LearningEntryProto.newBuilder().setId(3).build();
-  private static final LearningEntryProto ENTRY_4 =
-      LearningEntryProto.newBuilder().setId(4).build();
 
   @Configuration
   static class TestContextConfiguration {
@@ -52,41 +44,62 @@ class LearningEntryDaoFileImplTest {
   @Autowired private LearningEntryDao learningEntryDao;
   @Autowired private StorageConnector storageConnector;
 
+  private LearningEntryProto entry1;
+  private LearningEntryProto entry2;
+  private LearningEntryProto entry3;
+  private LearningEntryProto entry4;
+
   @BeforeEach
   void setUp() {
-    learningEntryDao.save(ENTRY_1);
-    learningEntryDao.save(ENTRY_2);
-    learningEntryDao.save(ENTRY_3);
-    learningEntryDao.save(ENTRY_4);
+    ImmutableList<LearningEntryProto> storedEntries = learningEntryDao.getAll();
+    for (LearningEntryProto storedEntry : storedEntries) {
+      learningEntryDao.delete(storedEntry.getId());
+    }
+
+    entry1 = learningEntryDao.insert(LearningEntryProto.newBuilder().setName("NAME_1").build());
+    entry2 = learningEntryDao.insert(LearningEntryProto.newBuilder().setName("NAME_2").build());
+    entry3 = learningEntryDao.insert(LearningEntryProto.newBuilder().setName("NAME_3").build());
+    entry4 = learningEntryDao.insert(LearningEntryProto.newBuilder().setName("NAME_4").build());
     Mockito.reset(storageConnector);
   }
 
   @Test
   void testGet() {
-    assertEquals(ENTRY_2, learningEntryDao.get(2).get());
-    assertEquals(ENTRY_4, learningEntryDao.get(4).get());
+    assertEquals(entry2, learningEntryDao.get(entry2.getId()).get());
+    assertEquals(entry4, learningEntryDao.get(entry4.getId()).get());
   }
 
   @Test
-  void testSave() {
+  void testUpdate_existingRecords() {
     LearningEntryProto expectedEntry = LearningEntryProto.newBuilder().setId(999).build();
-    learningEntryDao.save(expectedEntry);
+    expectedEntry = learningEntryDao.insert(expectedEntry);
+
+    expectedEntry = expectedEntry.toBuilder().setName("NAME").build();
+    learningEntryDao.update(expectedEntry);
 
     assertEquals(expectedEntry, learningEntryDao.get(expectedEntry.getId()).get());
     learningEntryDao.delete(expectedEntry.getId());
-    verify(storageConnector, times(2)).persistState(any());
+    verify(storageConnector, times(3)).persistState(any());
+  }
+
+  @Test
+  void testUpdate_nonExistingRecords() {
+    LearningEntryProto expectedEntry = LearningEntryProto.newBuilder().setId(999).build();
+    learningEntryDao.update(expectedEntry);
+
+    assertTrue(learningEntryDao.get(expectedEntry.getId()).isEmpty());
   }
 
   @Test
   void testGetAll() {
     assertIterableEquals(
-        ImmutableList.of(ENTRY_1, ENTRY_2, ENTRY_3, ENTRY_4), learningEntryDao.getAll());
+        ImmutableList.of(entry1, entry2, entry3, entry4), learningEntryDao.getAll());
   }
 
   @Test
   void testDelete() {
     LearningEntryProto expectedEntry = LearningEntryProto.newBuilder().setId(999).build();
-    learningEntryDao.save(expectedEntry);
+    expectedEntry = learningEntryDao.insert(expectedEntry);
 
     assertEquals(expectedEntry, learningEntryDao.get(expectedEntry.getId()).get());
     learningEntryDao.delete(expectedEntry.getId());

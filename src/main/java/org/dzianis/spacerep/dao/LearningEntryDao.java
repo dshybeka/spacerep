@@ -6,7 +6,9 @@ import org.spacerep.protos.LearningEntryProto;
 
 public interface LearningEntryDao {
 
-  void save(LearningEntryProto learningEntry);
+  LearningEntryProto insert(LearningEntryProto learningEntry);
+
+  void update(LearningEntryProto learningEntry);
 
   Optional<LearningEntryProto> get(long id);
 
