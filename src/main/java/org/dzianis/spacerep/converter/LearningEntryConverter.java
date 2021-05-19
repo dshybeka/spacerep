@@ -22,6 +22,7 @@ class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto
             .setNotes(learningEntry.getNotes())
             .addAllChanges(learningEntry.getChanges())
             .addAllMark(learningEntry.getMarks())
+            .addAllLinks(learningEntry.getLinks())
             .addAllEasinessFactor(learningEntry.getEasinessFactors())
             .setCreatedAt(safeToTimestamp(learningEntry.getCreatedAt()))
             .setUpdatedAt(safeToTimestamp(learningEntry.getUpdatedAt()))
@@ -69,6 +70,7 @@ class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto
                 : null)
         .lastMark(learningEntryProto.getLastMark())
         .lastEasinessFactor(learningEntryProto.getLastEasinessFactor())
+        .links(learningEntryProto.getLinksList())
         .build();
   }
 

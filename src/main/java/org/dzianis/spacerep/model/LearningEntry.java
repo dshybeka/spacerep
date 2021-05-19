@@ -25,13 +25,15 @@ public class LearningEntry {
 
   String name;
 
-  String notes;
+  @Builder.Default String notes = "";
 
   @Singular ImmutableList<String> changes;
 
   @Singular ImmutableList<Mark> marks;
 
   @Singular ImmutableList<EasinessFactor> easinessFactors;
+
+  @Singular ImmutableList<String> links;
 
   Mark lastMark;
 

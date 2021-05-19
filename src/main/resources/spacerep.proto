@@ -40,6 +40,8 @@ message LearningEntryProto {
   Mark last_mark = 13;
 
   EasinessFactor last_easiness_factor = 14;
+
+  repeated string links = 15;
 }
 
 message Mark {

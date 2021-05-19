@@ -1,6 +1,7 @@
 package org.dzianis.spacerep.service;
 
 import com.google.common.base.Converter;
+import com.google.common.base.Preconditions;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.dzianis.spacerep.controller.model.CreateLearningEntryRequest;
@@ -48,11 +49,14 @@ public class LearningEntryService {
   }
 
   public LearningEntryProto createNew(CreateLearningEntryRequest request) {
+    Preconditions.checkNotNull(request.getName(), "Name should not be null.");
+
     LearningEntry learningEntry =
         LearningEntry.builder()
             .name(request.getName())
             .notes(request.getNotes())
             .attempt(request.getAttempt())
+            .links(request.getLinks())
             .createdAt(timeSource.now())
             .updatedAt(timeSource.now())
             .status(Status.SCHEDULED)
@@ -93,6 +97,7 @@ public class LearningEntryService {
             .name(request.getName())
             .notes(request.getNotes())
             .status(request.getStatus())
+            .links(request.getLinks())
             .scheduledFor(
                 Optional.ofNullable(request.getScheduleFor())
                     .orElseGet(() -> schedulingService.schedule(learningEntry)))

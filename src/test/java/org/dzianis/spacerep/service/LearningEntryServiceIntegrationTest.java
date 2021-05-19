@@ -1,8 +1,8 @@
 package org.dzianis.spacerep.service;
 
 import com.google.common.collect.ImmutableList;
+import java.time.LocalDate;
 import org.dzianis.spacerep.controller.model.CreateLearningEntryRequest;
-import org.dzianis.spacerep.controller.model.UpdateLearningEntryRequest;
 import org.dzianis.spacerep.converter.ConverterConfig;
 import org.dzianis.spacerep.dao.DaoConfig;
 import org.dzianis.spacerep.dao.LearningEntryDao;
@@ -26,6 +26,41 @@ class LearningEntryServiceIntegrationTest {
   @Autowired private LearningEntryService learningEntryService;
 
   @Test
+  void testCreateFew() {
+    learningEntryService.createNew(
+        CreateLearningEntryRequest.builder()
+            .name("Longest Substring Without Repeating Characters")
+            .link("https://leetcode.com/problems/longest-substring-without-repeating-characters")
+            .attempt(3)
+            .scheduleFor(LocalDate.of(2021, 6, 8))
+            .build());
+
+    learningEntryService.createNew(
+        CreateLearningEntryRequest.builder()
+            .name("Merge two lists")
+            .link("https://leetcode.com/problems/merge-two-sorted-lists/submissions/")
+            .attempt(2)
+            .scheduleFor(LocalDate.of(2021, 5, 27))
+            .build());
+
+    learningEntryService.createNew(
+        CreateLearningEntryRequest.builder()
+            .name("Remove Duplicates from Sorted Array")
+            .link("https://leetcode.com/problems/remove-duplicates-from-sorted-array/")
+            .attempt(2)
+            .scheduleFor(LocalDate.of(2021, 5, 27))
+            .build());
+
+    learningEntryService.createNew(
+        CreateLearningEntryRequest.builder()
+            .name("Maximum Subarray")
+            .link("https://leetcode.com/problems/maximum-subarray/")
+            .attempt(1)
+            .scheduleFor(LocalDate.of(2021, 5, 14))
+            .build());
+  }
+
+  @Test
   void testCreateNew() {
     CreateLearningEntryRequest entry1 =
         CreateLearningEntryRequest.builder()
@@ -35,26 +70,28 @@ class LearningEntryServiceIntegrationTest {
 
     LearningEntryProto createdEntry = learningEntryService.createNew(entry1);
 
-//    learningEntryService.update(
-//        UpdateLearningEntryRequest.builder()
-//            .id(createdEntry.getId())
-//            .name(createdEntry.getName())
-//            .notes(createdEntry.getNotes())
-//            .markValue(4)
-//            .build());
-//    LearningEntryProto entity1AfterFirstUpdate = learningEntryService.get(createdEntry.getId());
-//
-//    learningEntryService.update(
-//        UpdateLearningEntryRequest.builder()
-//            .id(createdEntry.getId())
-//            .name(createdEntry.getName())
-//            .notes(createdEntry.getNotes())
-//            .markValue(4)
-//            .build());
-//    LearningEntryProto entity1AfterFirstUpdate2 = learningEntryService.get(createdEntry.getId());
-//
-//    System.out.println("entity1AfterFirstUpdate " + entity1AfterFirstUpdate);
-//    System.out.println("entity1AfterFirstUpdate2 " + entity1AfterFirstUpdate2);
+    //    learningEntryService.update(
+    //        UpdateLearningEntryRequest.builder()
+    //            .id(createdEntry.getId())
+    //            .name(createdEntry.getName())
+    //            .notes(createdEntry.getNotes())
+    //            .markValue(4)
+    //            .build());
+    //    LearningEntryProto entity1AfterFirstUpdate =
+    // learningEntryService.get(createdEntry.getId());
+    //
+    //    learningEntryService.update(
+    //        UpdateLearningEntryRequest.builder()
+    //            .id(createdEntry.getId())
+    //            .name(createdEntry.getName())
+    //            .notes(createdEntry.getNotes())
+    //            .markValue(4)
+    //            .build());
+    //    LearningEntryProto entity1AfterFirstUpdate2 =
+    // learningEntryService.get(createdEntry.getId());
+    //
+    //    System.out.println("entity1AfterFirstUpdate " + entity1AfterFirstUpdate);
+    //    System.out.println("entity1AfterFirstUpdate2 " + entity1AfterFirstUpdate2);
   }
 
   @Test
@@ -64,7 +101,7 @@ class LearningEntryServiceIntegrationTest {
     System.out.println("all " + all);
 
     for (LearningEntryProto learningEntryProto : all) {
-      learningEntryDao.delete(learningEntryProto.getId());
+//      learningEntryDao.delete(learningEntryProto.getId());
     }
   }
 }
