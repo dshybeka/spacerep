@@ -5,10 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.common.base.Converter;
 import com.google.protobuf.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.dzianis.spacerep.model.LearningEntry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.spacerep.protos.DateProto;
 import org.spacerep.protos.EasinessFactor;
 import org.spacerep.protos.LearningEntryProto;
 import org.spacerep.protos.Mark;
@@ -25,7 +27,7 @@ class LearningEntryConverterTest {
   private static final LocalDateTime ARCHIVED_AT = LocalDateTime.now();
   private static final LocalDateTime UPDATED_AT = LocalDateTime.now();
   private static final LocalDateTime CREATED_AT = LocalDateTime.now();
-  private static final LocalDateTime SCHEDULED_FOR = LocalDateTime.now();
+  private static final LocalDate SCHEDULED_FOR = LocalDate.now();
 
   private static final Timestamp CREATED_AT_TIMESTAMP =
       Timestamp.newBuilder()
@@ -42,10 +44,11 @@ class LearningEntryConverterTest {
           .setSeconds(ARCHIVED_AT.toInstant(UTC).getEpochSecond())
           .setNanos(ARCHIVED_AT.toInstant(UTC).getNano())
           .build();
-  private static final Timestamp SCHEDULED_FOR_TIMESTAMP =
-      Timestamp.newBuilder()
-          .setSeconds(SCHEDULED_FOR.toInstant(UTC).getEpochSecond())
-          .setNanos(SCHEDULED_FOR.toInstant(UTC).getNano())
+  private static final DateProto SCHEDULED_FOR_DATE =
+      DateProto.newBuilder()
+          .setYear(SCHEDULED_FOR.getYear())
+          .setMonth(SCHEDULED_FOR.getMonthValue())
+          .setDay(SCHEDULED_FOR.getDayOfMonth())
           .build();
 
   private static final LearningEntry LEARNING_ENTRY =
@@ -55,10 +58,10 @@ class LearningEntryConverterTest {
           .notes("NOTES")
           .change("CHANGE_1")
           .change("CHANGE_2")
-//          .mark(Mark.newBuilder().setValue(1).build())
-//          .mark(Mark.newBuilder().setValue(2).build())
-//          .easinessFactor(EasinessFactor.newBuilder().setValue(1.1).build())
-//          .easinessFactor(EasinessFactor.newBuilder().setValue(2.2).build())
+          .mark(Mark.newBuilder().setValue(1).build())
+          .mark(Mark.newBuilder().setValue(2).build())
+          .easinessFactor(EasinessFactor.newBuilder().setValue(1.1).build())
+          .easinessFactor(EasinessFactor.newBuilder().setValue(2.2).build())
           .createdAt(CREATED_AT)
           .updatedAt(UPDATED_AT)
           .archivedAt(ARCHIVED_AT)
@@ -85,7 +88,7 @@ class LearningEntryConverterTest {
           .setArchivedAt(ARCHIVED_AT_TIMESTAMP)
           .setAttempt(1)
           .setStatus(Status.ARCHIVED)
-          .setScheduledFor(SCHEDULED_FOR_TIMESTAMP)
+          .setScheduledFor(SCHEDULED_FOR_DATE)
           .setLastMark(Mark.newBuilder().setValue(5).build())
           .setLastEasinessFactor(EasinessFactor.newBuilder().setValue(2.32).build())
           .build();

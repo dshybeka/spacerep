@@ -52,16 +52,18 @@ public class LearningEntryService {
         LearningEntry.builder()
             .name(request.getName())
             .notes(request.getNotes())
+            .attempt(request.getAttempt())
             .createdAt(timeSource.now())
             .updatedAt(timeSource.now())
-            .attempt(1)
             .status(Status.SCHEDULED)
             .lastEasinessFactor(
                 EasinessFactor.newBuilder()
                     .setValue(EASINESS_FACTOR_ON_CREATE)
                     .setDate(timeSource.timestampNow())
                     .build())
-            .scheduledFor(schedulingService.scheduleOnCreate())
+            .scheduledFor(
+                Optional.ofNullable(request.getScheduleFor())
+                    .orElseGet(schedulingService::scheduleOnCreate))
             .build();
 
     LearningEntryProto createdEntry =

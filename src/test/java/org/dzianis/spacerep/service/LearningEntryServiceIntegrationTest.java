@@ -35,26 +35,26 @@ class LearningEntryServiceIntegrationTest {
 
     LearningEntryProto createdEntry = learningEntryService.createNew(entry1);
 
-    learningEntryService.update(
-        UpdateLearningEntryRequest.builder()
-            .id(createdEntry.getId())
-            .name(createdEntry.getName())
-            .notes(createdEntry.getNotes())
-            .markValue(4)
-            .build());
-    LearningEntryProto entity1AfterFirstUpdate = learningEntryService.get(createdEntry.getId());
-
-    learningEntryService.update(
-        UpdateLearningEntryRequest.builder()
-            .id(createdEntry.getId())
-            .name(createdEntry.getName())
-            .notes(createdEntry.getNotes())
-            .markValue(4)
-            .build());
-    LearningEntryProto entity1AfterFirstUpdate2 = learningEntryService.get(createdEntry.getId());
-
-    System.out.println("entity1AfterFirstUpdate " + entity1AfterFirstUpdate);
-    System.out.println("entity1AfterFirstUpdate2 " + entity1AfterFirstUpdate2);
+//    learningEntryService.update(
+//        UpdateLearningEntryRequest.builder()
+//            .id(createdEntry.getId())
+//            .name(createdEntry.getName())
+//            .notes(createdEntry.getNotes())
+//            .markValue(4)
+//            .build());
+//    LearningEntryProto entity1AfterFirstUpdate = learningEntryService.get(createdEntry.getId());
+//
+//    learningEntryService.update(
+//        UpdateLearningEntryRequest.builder()
+//            .id(createdEntry.getId())
+//            .name(createdEntry.getName())
+//            .notes(createdEntry.getNotes())
+//            .markValue(4)
+//            .build());
+//    LearningEntryProto entity1AfterFirstUpdate2 = learningEntryService.get(createdEntry.getId());
+//
+//    System.out.println("entity1AfterFirstUpdate " + entity1AfterFirstUpdate);
+//    System.out.println("entity1AfterFirstUpdate2 " + entity1AfterFirstUpdate2);
   }
 
   @Test
