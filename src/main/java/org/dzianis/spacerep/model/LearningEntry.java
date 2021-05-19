@@ -1,6 +1,7 @@
 package org.dzianis.spacerep.model;
 
 import com.google.common.collect.ImmutableList;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import lombok.Builder;
@@ -46,5 +47,5 @@ public class LearningEntry {
 
   Status status;
 
-  LocalDateTime scheduledFor;
+  LocalDate scheduledFor;
 }

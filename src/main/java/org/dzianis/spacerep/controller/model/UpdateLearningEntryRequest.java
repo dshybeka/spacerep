@@ -1,6 +1,6 @@
 package org.dzianis.spacerep.controller.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Value;
 import org.spacerep.protos.Status;
@@ -16,7 +16,7 @@ public class UpdateLearningEntryRequest {
 
   Status status;
 
-  LocalDateTime scheduleFor;
+  LocalDate scheduleFor;
 
   int markValue;
 }

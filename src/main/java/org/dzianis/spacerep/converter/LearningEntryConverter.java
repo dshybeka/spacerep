@@ -4,8 +4,10 @@ import static java.time.ZoneOffset.UTC;
 
 import com.google.common.base.Converter;
 import com.google.protobuf.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.dzianis.spacerep.model.LearningEntry;
+import org.spacerep.protos.DateProto;
 import org.spacerep.protos.LearningEntryProto;
 import org.spacerep.protos.LearningEntryProto.Builder;
 
@@ -25,7 +27,7 @@ class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto
             .setUpdatedAt(safeToTimestamp(learningEntry.getUpdatedAt()))
             .setArchivedAt(safeToTimestamp(learningEntry.getArchivedAt()))
             .setAttempt(learningEntry.getAttempt())
-            .setScheduledFor(safeToTimestamp(learningEntry.getScheduledFor()));
+            .setScheduledFor(safeToDateProto(learningEntry.getScheduledFor()));
     if (learningEntry.getStatus() != null) {
       builder.setStatus(learningEntry.getStatus());
     }
@@ -82,6 +84,22 @@ class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto
     return Timestamp.newBuilder()
         .setSeconds(localDateTime.toInstant(UTC).getEpochSecond())
         .setNanos(localDateTime.toInstant(UTC).getNano())
+        .build();
+  }
+
+  private static LocalDate toLocalDateTime(DateProto dateProto) {
+    return LocalDate.of(dateProto.getYear(), dateProto.getMonth(), dateProto.getDay());
+  }
+
+  private static DateProto safeToDateProto(LocalDate localDate) {
+    if (localDate == null) {
+      return DateProto.getDefaultInstance();
+    }
+
+    return DateProto.newBuilder()
+        .setYear(localDate.getYear())
+        .setMonth(localDate.getMonthValue())
+        .setDay(localDate.getDayOfMonth())
         .build();
   }
 }

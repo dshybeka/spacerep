@@ -1,6 +1,7 @@
 package org.dzianis.spacerep.service;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.dzianis.spacerep.model.LearningEntry;
 import org.spacerep.protos.EasinessFactor;
@@ -18,7 +19,7 @@ public class SchedulingService {
     this.timeSource = timeSource;
   }
 
-  LocalDateTime schedule(LearningEntry learningEntry) {
+  LocalDate schedule(LearningEntry learningEntry) {
     if (learningEntry.getScheduledFor() == null) {
       throw new IllegalArgumentException("Scheduled for date should not be null");
     }
@@ -31,21 +32,21 @@ public class SchedulingService {
    *
    * @return
    */
-  private LocalDateTime scheduleOnUpdate(LearningEntry learningEntry) {
+  private LocalDate scheduleOnUpdate(LearningEntry learningEntry) {
     EasinessFactor easinessFactor = learningEntry.getLastEasinessFactor();
 
     LocalDateTime lastUpdated = learningEntry.getUpdatedAt();
-    LocalDateTime scheduledDate = learningEntry.getScheduledFor();
+    LocalDate scheduledDate = learningEntry.getScheduledFor();
 
     long previousDelayDays = Duration.between(lastUpdated, scheduledDate).toDays();
     long nextDelay =
         Math.min(
             Math.round(previousDelayDays * easinessFactor.getValue()), MAX_SCHEDULE_DELAY_DAYS);
 
-    return timeSource.now().plusDays(nextDelay);
+    return timeSource.localDateNow().plusDays(nextDelay);
   }
 
-  public LocalDateTime scheduleOnCreate() {
-    return timeSource.now().plusDays(SCHEDULE_DELAY_ON_CREATE);
+  public LocalDate scheduleOnCreate() {
+    return timeSource.localDateNow().plusDays(SCHEDULE_DELAY_ON_CREATE);
   }
 }

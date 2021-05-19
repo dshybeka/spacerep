@@ -31,7 +31,7 @@ message LearningEntryProto {
 
   Status status = 9;
 
-  google.protobuf.Timestamp scheduled_for = 10;
+  DateProto scheduled_for = 10;
 
   repeated Mark mark = 11;
 
@@ -62,4 +62,12 @@ enum Status {
   REPEATED = 2;
   FAILED = 3;
   ARCHIVED = 4;
+}
+
+message DateProto {
+  int32 year = 1;
+
+  int32 month = 2;
+
+  int32 day = 3;
 }
