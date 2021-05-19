@@ -20,7 +20,7 @@ public class SchedulingService {
 
   LocalDateTime schedule(LearningEntry learningEntry) {
     if (learningEntry.getScheduledFor() == null) {
-      return scheduleOnCreate(learningEntry);
+      throw new IllegalArgumentException("Scheduled for date should not be null");
     }
 
     return scheduleOnUpdate(learningEntry);
@@ -32,10 +32,10 @@ public class SchedulingService {
    * @return
    */
   private LocalDateTime scheduleOnUpdate(LearningEntry learningEntry) {
-    EasinessFactor easinessFactor = learningEntry.getLatestEasinessFactor();
+    EasinessFactor easinessFactor = learningEntry.getLastEasinessFactor();
 
     LocalDateTime lastUpdated = learningEntry.getUpdatedAt();
-    LocalDateTime scheduledDate = learningEntry.getUpdatedAt();
+    LocalDateTime scheduledDate = learningEntry.getScheduledFor();
 
     long previousDelayDays = Duration.between(lastUpdated, scheduledDate).toDays();
     long nextDelay =
@@ -45,7 +45,7 @@ public class SchedulingService {
     return timeSource.now().plusDays(nextDelay);
   }
 
-  private LocalDateTime scheduleOnCreate(LearningEntry learningEntry) {
+  public LocalDateTime scheduleOnCreate() {
     return timeSource.now().plusDays(SCHEDULE_DELAY_ON_CREATE);
   }
 }

@@ -32,6 +32,10 @@ public class LearningEntry {
 
   @Singular ImmutableList<EasinessFactor> easinessFactors;
 
+  Mark lastMark;
+
+  EasinessFactor lastEasinessFactor;
+
   LocalDateTime createdAt;
 
   LocalDateTime updatedAt;
@@ -43,38 +47,4 @@ public class LearningEntry {
   Status status;
 
   LocalDateTime scheduledFor;
-
-  public LearningEntry addMark(Mark mark) {
-    return this.toBuilder().mark(mark).build();
-  }
-
-  public LearningEntry addChange(String change) {
-    return this.toBuilder().change(change).build();
-  }
-
-  public LearningEntry addEasinessFactors(EasinessFactor easinessFactor) {
-    return this.toBuilder().easinessFactor(easinessFactor).build();
-  }
-
-  public EasinessFactor getLatestEasinessFactor() {
-    IllegalStateException possibleStateException =
-        new IllegalStateException("Easiness factor is not set for entity: " + id);
-    if (easinessFactors == null) {
-      throw possibleStateException;
-    }
-
-    return easinessFactors.stream()
-        .min(EASINESS_FACTOR_BY_DATE_DESC)
-        .orElseThrow(() -> possibleStateException);
-  }
-
-  public Mark getLatestMark() {
-    IllegalStateException possibleStateException =
-        new IllegalStateException("Mark is not set for entity: " + id);
-    if (easinessFactors == null) {
-      throw possibleStateException;
-    }
-
-    return marks.stream().min(MARK_BY_DATE_DESC).orElseThrow(() -> possibleStateException);
-  }
 }

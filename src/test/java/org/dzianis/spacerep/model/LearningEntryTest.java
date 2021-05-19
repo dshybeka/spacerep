@@ -15,7 +15,7 @@ class LearningEntryTest {
         LearningEntry.builder().mark(Mark.newBuilder().setValue(4).build()).build();
 
     LearningEntry updatedLearningEntry =
-        learningEntry.addMark(Mark.newBuilder().setValue(5).build());
+        learningEntry.toBuilder().mark(Mark.newBuilder().setValue(5).build()).build();
 
     assertIterableEquals(
         ImmutableList.of(4, 5),

@@ -55,16 +55,18 @@ class LearningEntryConverterTest {
           .notes("NOTES")
           .change("CHANGE_1")
           .change("CHANGE_2")
-          .mark(Mark.newBuilder().setValue(1).build())
-          .mark(Mark.newBuilder().setValue(2).build())
-          .easinessFactor(EasinessFactor.newBuilder().setValue(1.1).build())
-          .easinessFactor(EasinessFactor.newBuilder().setValue(2.2).build())
+//          .mark(Mark.newBuilder().setValue(1).build())
+//          .mark(Mark.newBuilder().setValue(2).build())
+//          .easinessFactor(EasinessFactor.newBuilder().setValue(1.1).build())
+//          .easinessFactor(EasinessFactor.newBuilder().setValue(2.2).build())
           .createdAt(CREATED_AT)
           .updatedAt(UPDATED_AT)
           .archivedAt(ARCHIVED_AT)
           .attempt(1)
           .status(Status.ARCHIVED)
           .scheduledFor(SCHEDULED_FOR)
+          .lastMark(Mark.newBuilder().setValue(5).build())
+          .lastEasinessFactor(EasinessFactor.newBuilder().setValue(2.32).build())
           .build();
 
   private static final LearningEntryProto LEARNING_ENTRY_PROTO =
@@ -84,6 +86,8 @@ class LearningEntryConverterTest {
           .setAttempt(1)
           .setStatus(Status.ARCHIVED)
           .setScheduledFor(SCHEDULED_FOR_TIMESTAMP)
+          .setLastMark(Mark.newBuilder().setValue(5).build())
+          .setLastEasinessFactor(EasinessFactor.newBuilder().setValue(2.32).build())
           .build();
 
   @Autowired private Converter<LearningEntry, LearningEntryProto> converter;

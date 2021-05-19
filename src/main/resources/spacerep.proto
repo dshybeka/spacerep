@@ -36,6 +36,10 @@ message LearningEntryProto {
   repeated Mark mark = 11;
 
   repeated EasinessFactor easiness_factor = 12;
+
+  Mark last_mark = 13;
+
+  EasinessFactor last_easiness_factor = 14;
 }
 
 message Mark {
