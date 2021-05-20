@@ -1,6 +1,7 @@
 package org.dzianis.spacerep.service;
 
 import com.google.common.base.Converter;
+import org.dzianis.spacerep.converter.LocalDateConverter;
 import org.dzianis.spacerep.dao.LearningEntryDao;
 import org.dzianis.spacerep.model.LearningEntry;
 import org.spacerep.protos.LearningEntryProto;
@@ -17,9 +18,14 @@ public class ServiceConfig {
       Converter<LearningEntry, LearningEntryProto> learningEntryConverter,
       TimeSource timeSource,
       SchedulingService schedulingService,
-      LearningEntryDao learningEntryDao) {
+      LearningEntryDao learningEntryDao,
+      LocalDateConverter localDateConverter) {
     return new LearningEntryService(
-        learningEntryConverter, timeSource, schedulingService, learningEntryDao);
+        learningEntryConverter,
+        timeSource,
+        schedulingService,
+        learningEntryDao,
+        localDateConverter);
   }
 
   @Bean

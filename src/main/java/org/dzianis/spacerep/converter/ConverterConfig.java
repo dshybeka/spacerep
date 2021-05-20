@@ -10,7 +10,13 @@ import org.springframework.context.annotation.Configuration;
 public class ConverterConfig {
 
   @Bean
-  public Converter<LearningEntry, LearningEntryProto> learningEntryConverter() {
-    return new LearningEntryConverter();
+  public Converter<LearningEntry, LearningEntryProto> learningEntryConverter(
+      LocalDateConverter localDateConverter) {
+    return new LearningEntryConverter(localDateConverter);
+  }
+
+  @Bean
+  public LocalDateConverter localDateConverter() {
+    return new LocalDateConverter();
   }
 }

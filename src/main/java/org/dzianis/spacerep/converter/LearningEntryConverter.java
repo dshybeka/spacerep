@@ -1,17 +1,17 @@
 package org.dzianis.spacerep.converter;
 
-import static java.time.ZoneOffset.UTC;
-
 import com.google.common.base.Converter;
-import com.google.protobuf.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import org.dzianis.spacerep.model.LearningEntry;
-import org.spacerep.protos.DateProto;
 import org.spacerep.protos.LearningEntryProto;
 import org.spacerep.protos.LearningEntryProto.Builder;
 
 class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto> {
+
+  private final LocalDateConverter localDateConverter;
+
+  LearningEntryConverter(LocalDateConverter localDateConverter) {
+    this.localDateConverter = localDateConverter;
+  }
 
   @Override
   protected LearningEntryProto doForward(LearningEntry learningEntry) {
@@ -24,11 +24,11 @@ class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto
             .addAllMark(learningEntry.getMarks())
             .addAllLinks(learningEntry.getLinks())
             .addAllEasinessFactor(learningEntry.getEasinessFactors())
-            .setCreatedAt(safeToTimestamp(learningEntry.getCreatedAt()))
-            .setUpdatedAt(safeToTimestamp(learningEntry.getUpdatedAt()))
-            .setArchivedAt(safeToTimestamp(learningEntry.getArchivedAt()))
+            .setCreatedAt(localDateConverter.safeToTimestamp(learningEntry.getCreatedAt()))
+            .setUpdatedAt(localDateConverter.safeToTimestamp(learningEntry.getUpdatedAt()))
+            .setArchivedAt(localDateConverter.safeToTimestamp(learningEntry.getArchivedAt()))
             .setAttempt(learningEntry.getAttempt())
-            .setScheduledFor(safeToDateProto(learningEntry.getScheduledFor()));
+            .setScheduledFor(localDateConverter.safeToDateProto(learningEntry.getScheduledFor()));
     if (learningEntry.getStatus() != null) {
       builder.setStatus(learningEntry.getStatus());
     }
@@ -52,56 +52,25 @@ class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto
         .easinessFactors(learningEntryProto.getEasinessFactorList())
         .createdAt(
             learningEntryProto.hasCreatedAt()
-                ? toLocalDateTime(learningEntryProto.getCreatedAt())
+                ? localDateConverter.toLocalDateTime(learningEntryProto.getCreatedAt())
                 : null)
         .updatedAt(
             learningEntryProto.hasUpdatedAt()
-                ? toLocalDateTime(learningEntryProto.getUpdatedAt())
+                ? localDateConverter.toLocalDateTime(learningEntryProto.getUpdatedAt())
                 : null)
         .archivedAt(
             learningEntryProto.hasArchivedAt()
-                ? toLocalDateTime(learningEntryProto.getArchivedAt())
+                ? localDateConverter.toLocalDateTime(learningEntryProto.getArchivedAt())
                 : null)
         .attempt(learningEntryProto.getAttempt())
         .status(learningEntryProto.getStatus())
         .scheduledFor(
             learningEntryProto.hasScheduledFor()
-                ? toLocalDateTime(learningEntryProto.getScheduledFor())
+                ? localDateConverter.toLocalDateTime(learningEntryProto.getScheduledFor())
                 : null)
         .lastMark(learningEntryProto.getLastMark())
         .lastEasinessFactor(learningEntryProto.getLastEasinessFactor())
         .links(learningEntryProto.getLinksList())
-        .build();
-  }
-
-  private static LocalDateTime toLocalDateTime(Timestamp timestamp) {
-    return LocalDateTime.ofEpochSecond(timestamp.getSeconds(), timestamp.getNanos(), UTC);
-  }
-
-  private static Timestamp safeToTimestamp(LocalDateTime localDateTime) {
-    if (localDateTime == null) {
-      return Timestamp.getDefaultInstance();
-    }
-
-    return Timestamp.newBuilder()
-        .setSeconds(localDateTime.toInstant(UTC).getEpochSecond())
-        .setNanos(localDateTime.toInstant(UTC).getNano())
-        .build();
-  }
-
-  private static LocalDate toLocalDateTime(DateProto dateProto) {
-    return LocalDate.of(dateProto.getYear(), dateProto.getMonth(), dateProto.getDay());
-  }
-
-  private static DateProto safeToDateProto(LocalDate localDate) {
-    if (localDate == null) {
-      return DateProto.getDefaultInstance();
-    }
-
-    return DateProto.newBuilder()
-        .setYear(localDate.getYear())
-        .setMonth(localDate.getMonthValue())
-        .setDay(localDate.getDayOfMonth())
         .build();
   }
 }

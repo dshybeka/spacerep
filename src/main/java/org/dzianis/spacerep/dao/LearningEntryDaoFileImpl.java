@@ -17,7 +17,7 @@ class LearningEntryDaoFileImpl implements LearningEntryDao {
   LearningEntryDaoFileImpl(StorageConnector storageConnector) {
     this.storageConnector = storageConnector;
     data = new ConcurrentHashMap<>(storageConnector.readState().getEntriesMap());
-    maxId = new AtomicLong(data.keySet().stream().max(Comparator.naturalOrder()).orElse(1L));
+    maxId = new AtomicLong(data.keySet().stream().max(Comparator.naturalOrder()).orElse(0L));
   }
 
   public LearningEntryProto insert(LearningEntryProto learningEntry) {

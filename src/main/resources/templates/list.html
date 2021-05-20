@@ -2,27 +2,36 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="ISO-8859-1"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <link href="css/styles.css" rel="stylesheet"/>
   <title>SpaceRep list</title>
 </head>
 <body>
 <h4>List of learning entries</h4>
 
-<table>
+<table class="table table-striped">
 
   <tr>
-    <th>Id</th>
-    <th>Name</th>
-    <th>Scheduled</th>
-    <th>Status</th>
-    <th>Attempt</th>
-    <th>Notes</th>
+    <th scope="col">Id</th>
+    <th scope="col">Name</th>
+    <th scope="col">Scheduled</th>
+    <th scope="col">Links</th>
+    <th scope="col">Status</th>
+    <th scope="col">Attempt</th>
+    <th scope="col">Notes</th>
   </tr>
 
   <tr th:each="entry : ${entries}">
-    <td th:text="${entry.id}"></td>
+    <td scope="row" th:text="${entry.id}"></td>
     <td th:text="${entry.name}"></td>
-    <td th:text="${entry.scheduledFor}"></td>
+    <td>
+      <span th:text="${entry.scheduledFor.year}"/>/<span th:text="${entry.scheduledFor.month}"/>/<span th:text="${entry.scheduledFor.day}"/>
+    </td>
+    <td>
+      <ul th:each="link : ${entry.linksList}">
+        <a th:href="@{(${link})}" target="_blank"><span th:text="${link}"/></a>
+      </ul>
+    </td>
     <td th:text="${entry.status}"></td>
     <td th:text="${entry.attempt}"></td>
     <td th:text="${entry.notes}"></td>

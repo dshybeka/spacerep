@@ -1,11 +1,16 @@
 package org.dzianis.spacerep.service;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.base.Converter;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.dzianis.spacerep.controller.model.CreateLearningEntryRequest;
 import org.dzianis.spacerep.controller.model.UpdateLearningEntryRequest;
+import org.dzianis.spacerep.converter.LocalDateConverter;
 import org.dzianis.spacerep.dao.LearningEntryDao;
 import org.dzianis.spacerep.model.LearningEntry;
 import org.dzianis.spacerep.model.LearningEntry.LearningEntryBuilder;
@@ -23,22 +28,26 @@ public class LearningEntryService {
 
   private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
   private static final double EASINESS_FACTOR_ON_CREATE = 2.5;
+  private static final int MAX_ACTIVE_ENTRIES_PER_LOAD = 3;
 
   private final Converter<LearningEntry, LearningEntryProto> learningEntryConverter;
   private final TimeSource timeSource;
   private final SchedulingService schedulingService;
   private final LearningEntryDao learningEntryDao;
+  private final LocalDateConverter localDateConverter;
 
   @Autowired
   public LearningEntryService(
       Converter<LearningEntry, LearningEntryProto> learningEntryConverter,
       TimeSource timeSource,
       SchedulingService schedulingService,
-      LearningEntryDao learningEntryDao) {
+      LearningEntryDao learningEntryDao,
+      LocalDateConverter localDateConverter) {
     this.learningEntryConverter = learningEntryConverter;
     this.timeSource = timeSource;
     this.schedulingService = schedulingService;
     this.learningEntryDao = learningEntryDao;
+    this.localDateConverter = localDateConverter;
   }
 
   public LearningEntryProto get(long id) {
@@ -46,6 +55,13 @@ public class LearningEntryService {
         .get(id)
         .orElseThrow(
             () -> new IllegalArgumentException("Learning entry with id " + id + " not found."));
+  }
+
+  public ImmutableList<LearningEntryProto> readAllActive() {
+    return learningEntryDao.getAll().stream()
+        .filter(this::isActive)
+        .limit(MAX_ACTIVE_ENTRIES_PER_LOAD)
+        .collect(toImmutableList());
   }
 
   public LearningEntryProto createNew(CreateLearningEntryRequest request) {
@@ -138,5 +154,12 @@ public class LearningEntryService {
     double newEf = ef + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
 
     return EasinessFactor.newBuilder().setValue(newEf).setDate(timeSource.timestampNow()).build();
+  }
+
+  private boolean isActive(LearningEntryProto entry) {
+    LocalDate scheduledFor = localDateConverter.toLocalDateTime(entry.getScheduledFor());
+    LocalDate now = timeSource.localDateNow();
+
+    return scheduledFor.isBefore(now);
   }
 }
