@@ -30,9 +30,7 @@
       <span th:text="${entry.scheduledFor.year}"/>/<span th:text="${entry.scheduledFor.month}"/>/<span th:text="${entry.scheduledFor.day}"/>
     </td>
     <td>
-      <ul th:each="link : ${entry.linksList}">
-        <a th:href="@{(${link})}" target="_blank"><span th:text="${link}"/></a>
-      </ul>
+      <a th:href="@{(${entry.link})}" target="_blank"><span th:text="${entry.link}"/></a>
     </td>
     <td th:text="${entry.status}"></td>
     <td th:text="${entry.attempt}"></td>

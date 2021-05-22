@@ -26,7 +26,8 @@ public class LearningEntryService {
 
   private static final Logger LOG = LoggerFactory.getLogger(LearningEntryService.class);
 
-  private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
+  private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_DATE;
+
   private static final double EASINESS_FACTOR_ON_CREATE = 2.5;
   private static final int MAX_ACTIVE_ENTRIES_PER_LOAD = 3;
 
@@ -94,7 +95,40 @@ public class LearningEntryService {
     return createdEntry;
   }
 
-  public LearningEntryProto update(UpdateLearningEntry request) {
+  public LearningEntryProto updateWithoutMark(UpdateLearningEntry request) {
+    Preconditions.checkArgument(
+        request.getMarkValue() > 0, "New mark value should be greater than 0.");
+    LearningEntryProto storedEntry =
+        learningEntryDao
+            .get(request.getId())
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "Learning entry with id " + request.getId() + " does not exist."));
+
+    final LearningEntry learningEntry = learningEntryConverter.reverse().convert(storedEntry);
+    LearningEntryBuilder builder =
+        learningEntry
+            .toBuilder()
+            .name(request.getName())
+            .notes(request.getNotes())
+            .status(request.getStatus())
+            .link(request.getLink())
+            .scheduledFor(request.getScheduleFor())
+            .updatedAt(timeSource.now())
+            .attempt(request.getAttempt())
+            .mark(learningEntry.getLastMark().toBuilder().setValue(request.getMarkValue()).build());
+
+    LearningEntryProto convertedEntry = learningEntryConverter.convert(builder.build());
+    learningEntryDao.update(convertedEntry);
+
+    LOG.info("Learning entry with id: {} updated.", learningEntry.getId());
+
+    return convertedEntry;
+  }
+
+  // TODO: add separate methods to only update data or to update mark and reschedule only.
+  public LearningEntryProto updateMarkAndReschedule(UpdateLearningEntry request) {
     LearningEntryProto storedEntry =
         learningEntryDao
             .get(request.getId())
@@ -141,7 +175,7 @@ public class LearningEntryService {
     LearningEntryProto convertedEntry = learningEntryConverter.convert(builder.build());
     learningEntryDao.update(convertedEntry);
 
-    LOG.info("Learning entry with id: {} updated.", learningEntry.getId());
+    LOG.info("Learning entry with id: {} updated and rescheduled.", learningEntry.getId());
 
     return convertedEntry;
   }

@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import org.dzianis.spacerep.model.LearningEntry;
 import org.spacerep.protos.EasinessFactor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,11 @@ public class SchedulingService {
   private LocalDate scheduleOnUpdate(LearningEntry learningEntry) {
     EasinessFactor easinessFactor = learningEntry.getLastEasinessFactor();
 
-    LocalDateTime lastUpdated = learningEntry.getUpdatedAt();
+    LocalDate lastUpdated = learningEntry.getUpdatedAt().toLocalDate();
     LocalDate scheduledDate = learningEntry.getScheduledFor();
 
-    long previousDelayDays = Duration.between(lastUpdated, scheduledDate).toDays();
+
+    long previousDelayDays = ChronoUnit.DAYS.between(lastUpdated, scheduledDate);
     long nextDelay =
         Math.min(
             Math.round(previousDelayDays * easinessFactor.getValue()), MAX_SCHEDULE_DELAY_DAYS);

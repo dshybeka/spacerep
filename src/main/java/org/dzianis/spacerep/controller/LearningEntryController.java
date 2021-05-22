@@ -2,6 +2,7 @@ package org.dzianis.spacerep.controller;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import org.dzianis.spacerep.controller.model.UpdateLearningEntry;
 import org.dzianis.spacerep.converter.LocalDateConverter;
@@ -44,6 +45,7 @@ public class LearningEntryController {
             .link(entry.getLink())
             .scheduleFor(localDateConverter.toLocalDateTime(entry.getScheduledFor()))
             .status(entry.getStatus())
+            .attempt(entry.getAttempt())
             .build());
     model.addAttribute(
         "statuses",
@@ -56,8 +58,8 @@ public class LearningEntryController {
 
   @PostMapping("/update/{id}")
   public String updateUser(@PathVariable("id") long id, UpdateLearningEntry entry) {
-
-    System.out.println("updated!");
+    Preconditions.checkArgument(id == entry.getId(), "Id of entity and path should be the same.");
+    learningEntryService.updateWithoutMark(entry);
     return "redirect:/";
   }
 }

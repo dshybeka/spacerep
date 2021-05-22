@@ -54,8 +54,9 @@
           <label for="mark" class="form-label">Mark</label>
         </div>
         <div class="col-auto">
-          <select th:field="*{markValue}" class="form-select" id="mark" aria-label="Floating label select example">
-            <option th:value="'5'" th:text="5" ></option>
+          <select th:field="*{markValue}" class="form-select" id="mark"
+                  aria-label="Floating label select example">
+            <option th:value="'5'" th:text="5"></option>
             <option th:value="'4'" th:text="4"></option>
             <option th:value="'3'" th:text="3"></option>
             <option th:value="'2'" th:text="2"></option>
@@ -69,7 +70,8 @@
           <label for="status" class="form-label">Notes</label>
         </div>
         <div class="col-auto">
-          <textarea placeholder="Any notes..." type="text" class="form-control" id="notes" th:field="*{notes}"></textarea>
+          <textarea placeholder="Any notes..." type="text" class="form-control" id="notes"
+                    th:field="*{notes}"></textarea>
         </div>
       </div>
 
@@ -101,12 +103,19 @@
 
       <div class="row mb-3 align-items-center">
         <div class="col-auto">
-          <label for="links" class="form-label">Links</label>
+          <label for="link" class="form-label">Link</label>
         </div>
-        <div id="links" class="col-6">
-          <ul class="list-group list-group-flush" th:each="link, itemStat : *{links}">
-            <li class="list-group-item"><input type="text" class="form-control" th:field="*{links[__${itemStat.index}__]}" /></li>
-          </ul>
+        <div id="link" class="col-6">
+          <input type="text" class="form-control" th:field="*{link}">
+        </div>
+      </div>
+
+      <div class="row mb-3 align-items-center">
+        <div class="col-auto">
+          <label for="attempt" class="form-label">Attempt</label>
+        </div>
+        <div id="attempt" class="col-6">
+          <input type="text" class="form-control" th:field="*{attempt}">
         </div>
       </div>
 
@@ -116,7 +125,6 @@
   </div>
 
 </div>
-
 
 
 <script>

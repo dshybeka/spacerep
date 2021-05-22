@@ -26,4 +26,6 @@ public class UpdateLearningEntry {
   int markValue;
 
   String link;
+
+  int attempt;
 }
