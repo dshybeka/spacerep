@@ -23,9 +23,9 @@ public class UpdateLearningEntry {
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   LocalDate scheduleFor;
 
-  int markValue;
+  Integer markValue;
 
   String link;
 
-  int attempt;
+  Integer attempt;
 }

@@ -31,12 +31,12 @@
   </div>
 
   <div class="row">
-    <h4>Edit learning entry</h4>
+    <h4>Process learning entry</h4>
   </div>
 
   <div class="row">
     <form action="#"
-          th:action="@{/update/{id}(id=${entry.id})}"
+          th:action="@{/update-mark/{id}(id=${entry.id})}"
           th:object="${entry}"
           method="post" autocomplete="off">
 
@@ -46,6 +46,15 @@
         </div>
         <div class="col-auto">
           <input type="text" class="form-control" id="name" th:field="*{name}">
+        </div>
+      </div>
+
+      <div class="row mb-3 align-items-center">
+        <div class="col-auto">
+          <label for="link" class="form-label">Link</label>
+        </div>
+        <div id="link" class="col-6">
+          <input type="text" class="form-control" th:field="*{link}">
         </div>
       </div>
 
@@ -75,71 +84,11 @@
         </div>
       </div>
 
-      <div class="row mb-3 align-items-center">
-        <div class="col-auto">
-          <label for="status" class="form-label">Status</label>
-        </div>
-        <div class="col-auto">
-          <select class="form-select" th:field="*{status}" id="status">
-            <option th:each="i : ${statuses}" th:value="${i}" th:text="${i}"></option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row mb-3 align-items-center">
-        <div class="col-auto">
-          <label for="scheduledFor" class="form-label">Scheduled for</label>
-        </div>
-        <div class="col-auto">
-          <div id="scheduledForGroup" class="input-group date">
-            <input type="text" class="form-control" id="scheduledFor" autocomplete="off"
-                   th:field="*{scheduleFor}"/>
-            <div class="input-group-append">
-              <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row mb-3 align-items-center">
-        <div class="col-auto">
-          <label for="link" class="form-label">Link</label>
-        </div>
-        <div id="link" class="col-6">
-          <input type="text" class="form-control" th:field="*{link}">
-        </div>
-      </div>
-
-      <div class="row mb-3 align-items-center">
-        <div class="col-auto">
-          <label for="attempt" class="form-label">Attempt</label>
-        </div>
-        <div id="attempt" class="col-6">
-          <input type="text" class="form-control" th:field="*{attempt}">
-        </div>
-      </div>
-
-
       <button type="submit" class="btn btn-primary">Update</button>
     </form>
   </div>
 
 </div>
-
-
-<script>
-  $(document).ready(function () {
-
-    $('#scheduledForGroup').datepicker({
-      format: 'yyyy-mm-dd',
-      autoclose: true,
-      calendarWeeks: true,
-      clearBtn: true,
-      disableTouchKeyboard: true
-    });
-
-  });
-</script>
 
 </body>
 </html>

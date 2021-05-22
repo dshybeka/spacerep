@@ -7,6 +7,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.Optional;
 import org.dzianis.spacerep.controller.model.CreateLearningEntry;
 import org.dzianis.spacerep.controller.model.UpdateLearningEntry;
@@ -30,7 +31,9 @@ public class LearningEntryService {
 
   private static final double EASINESS_FACTOR_ON_CREATE = 2.5;
   private static final int MAX_ACTIVE_ENTRIES_PER_LOAD = 3;
+  private static final int MAX_ATTEMPTS_TO_REPEAT = 10;
 
+  private final Comparator<LearningEntryProto> byScheduledForDesc;
   private final Converter<LearningEntry, LearningEntryProto> learningEntryConverter;
   private final TimeSource timeSource;
   private final SchedulingService schedulingService;
@@ -49,6 +52,8 @@ public class LearningEntryService {
     this.schedulingService = schedulingService;
     this.learningEntryDao = learningEntryDao;
     this.localDateConverter = localDateConverter;
+    byScheduledForDesc =
+        Comparator.comparing(e -> localDateConverter.toLocalDate(e.getScheduledFor()));
   }
 
   public LearningEntryProto get(long id) {
@@ -63,6 +68,10 @@ public class LearningEntryService {
         .filter(this::isActive)
         .limit(MAX_ACTIVE_ENTRIES_PER_LOAD)
         .collect(toImmutableList());
+  }
+
+  public ImmutableList<LearningEntryProto> readAll() {
+    return learningEntryDao.getAll().stream().sorted(byScheduledForDesc).collect(toImmutableList());
   }
 
   public LearningEntryProto createNew(CreateLearningEntry request) {
@@ -141,12 +150,14 @@ public class LearningEntryService {
     EasinessFactor newEasinessFactor =
         calculateEasinessFactor(learningEntry, request.getMarkValue());
 
+    int nextAttempt = learningEntry.getAttempt() + 1;
     LearningEntryBuilder builder =
         learningEntry
             .toBuilder()
             .name(request.getName())
             .notes(request.getNotes())
-            .status(request.getStatus())
+            .status(
+                nextAttempt > MAX_ATTEMPTS_TO_REPEAT ? Status.ARCHIVED : learningEntry.getStatus())
             .link(request.getLink())
             .scheduledFor(
                 Optional.ofNullable(request.getScheduleFor())
@@ -158,7 +169,7 @@ public class LearningEntryService {
                     .build())
             .lastEasinessFactor(newEasinessFactor)
             .updatedAt(timeSource.now())
-            .attempt(learningEntry.getAttempt() + 1)
+            .attempt(nextAttempt)
             .scheduledFor(schedulingService.schedule(learningEntry))
             .change(
                 String.format(
@@ -191,7 +202,7 @@ public class LearningEntryService {
   }
 
   private boolean isActive(LearningEntryProto entry) {
-    LocalDate scheduledFor = localDateConverter.toLocalDateTime(entry.getScheduledFor());
+    LocalDate scheduledFor = localDateConverter.toLocalDate(entry.getScheduledFor());
     LocalDate now = timeSource.localDateNow();
 
     return scheduledFor.isBefore(now);

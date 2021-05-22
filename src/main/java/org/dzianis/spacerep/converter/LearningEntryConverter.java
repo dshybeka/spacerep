@@ -66,7 +66,7 @@ class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto
         .status(learningEntryProto.getStatus())
         .scheduledFor(
             learningEntryProto.hasScheduledFor()
-                ? localDateConverter.toLocalDateTime(learningEntryProto.getScheduledFor())
+                ? localDateConverter.toLocalDate(learningEntryProto.getScheduledFor())
                 : null)
         .lastMark(learningEntryProto.getLastMark())
         .lastEasinessFactor(learningEntryProto.getLastEasinessFactor())

@@ -30,11 +30,20 @@ public class LearningEntryController {
   @GetMapping(value = "/")
   public String index(Model model) {
     model.addAttribute("entries", learningEntryService.readAllActive());
+    model.addAttribute("all", false);
     return "list";
   }
 
-  @GetMapping("/edit/{id}")
-  public String showUpdateForm(@PathVariable("id") long id, Model model) {
+  @GetMapping(value = "/all")
+  public String showAll(Model model) {
+    model.addAttribute("entries", learningEntryService.readAll());
+    model.addAttribute("all", true);
+    return "list";
+  }
+
+  @GetMapping("/edit/{type}/{id}")
+  public String showUpdateForm(
+      @PathVariable("type") String type, @PathVariable("id") long id, Model model) {
     LearningEntryProto entry = learningEntryService.get(id);
     model.addAttribute(
         "entry",
@@ -43,7 +52,7 @@ public class LearningEntryController {
             .notes(entry.getNotes())
             .name(entry.getName())
             .link(entry.getLink())
-            .scheduleFor(localDateConverter.toLocalDateTime(entry.getScheduledFor()))
+            .scheduleFor(localDateConverter.toLocalDate(entry.getScheduledFor()))
             .status(entry.getStatus())
             .attempt(entry.getAttempt())
             .build());
@@ -53,13 +62,21 @@ public class LearningEntryController {
             .filter(s -> s != Status.UNRECOGNIZED)
             .filter(s -> s != Status.UNDEFINED)
             .collect(toImmutableList()));
-    return "edit-entry";
+
+    return type.equals("full") ? "edit-entry" : "update-mark-entry";
   }
 
   @PostMapping("/update/{id}")
   public String updateUser(@PathVariable("id") long id, UpdateLearningEntry entry) {
     Preconditions.checkArgument(id == entry.getId(), "Id of entity and path should be the same.");
     learningEntryService.updateWithoutMark(entry);
+    return "redirect:/";
+  }
+
+  @PostMapping("/update-mark/{id}")
+  public String updateMarkUser(@PathVariable("id") long id, UpdateLearningEntry entry) {
+    Preconditions.checkArgument(id == entry.getId(), "Id of entity and path should be the same.");
+    learningEntryService.updateMarkAndReschedule(entry);
     return "redirect:/";
   }
 }

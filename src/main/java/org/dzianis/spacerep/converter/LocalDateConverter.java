@@ -24,7 +24,7 @@ public class LocalDateConverter {
         .build();
   }
 
-  public LocalDate toLocalDateTime(DateProto dateProto) {
+  public LocalDate toLocalDate(DateProto dateProto) {
     return LocalDate.of(dateProto.getYear(), dateProto.getMonth(), dateProto.getDay());
   }
 
