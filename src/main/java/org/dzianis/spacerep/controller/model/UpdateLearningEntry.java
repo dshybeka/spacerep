@@ -1,16 +1,17 @@
 package org.dzianis.spacerep.controller.model;
 
 import java.time.LocalDate;
-import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
-import lombok.Singular;
 import lombok.Value;
 import org.spacerep.protos.Status;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Value
 @Builder(toBuilder = true)
-public class UpdateLearningEntryRequest {
+@AllArgsConstructor
+public class UpdateLearningEntry {
   long id;
 
   String name;
@@ -19,9 +20,10 @@ public class UpdateLearningEntryRequest {
 
   Status status;
 
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   LocalDate scheduleFor;
 
   int markValue;
 
-  @Singular List<String> links;
+  String link;
 }

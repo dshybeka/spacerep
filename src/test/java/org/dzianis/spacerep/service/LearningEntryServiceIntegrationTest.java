@@ -2,7 +2,7 @@ package org.dzianis.spacerep.service;
 
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDate;
-import org.dzianis.spacerep.controller.model.CreateLearningEntryRequest;
+import org.dzianis.spacerep.controller.model.CreateLearningEntry;
 import org.dzianis.spacerep.converter.ConverterConfig;
 import org.dzianis.spacerep.dao.DaoConfig;
 import org.dzianis.spacerep.dao.LearningEntryDao;
@@ -28,7 +28,7 @@ class LearningEntryServiceIntegrationTest {
   @Test
   void testCreateFew() {
     learningEntryService.createNew(
-        CreateLearningEntryRequest.builder()
+        CreateLearningEntry.builder()
             .name("Longest Substring Without Repeating Characters")
             .link("https://leetcode.com/problems/longest-substring-without-repeating-characters")
             .attempt(3)
@@ -36,7 +36,7 @@ class LearningEntryServiceIntegrationTest {
             .build());
 
     learningEntryService.createNew(
-        CreateLearningEntryRequest.builder()
+        CreateLearningEntry.builder()
             .name("Merge two lists")
             .link("https://leetcode.com/problems/merge-two-sorted-lists/submissions/")
             .attempt(2)
@@ -44,7 +44,7 @@ class LearningEntryServiceIntegrationTest {
             .build());
 
     learningEntryService.createNew(
-        CreateLearningEntryRequest.builder()
+        CreateLearningEntry.builder()
             .name("Remove Duplicates from Sorted Array")
             .link("https://leetcode.com/problems/remove-duplicates-from-sorted-array/")
             .attempt(2)
@@ -52,7 +52,7 @@ class LearningEntryServiceIntegrationTest {
             .build());
 
     learningEntryService.createNew(
-        CreateLearningEntryRequest.builder()
+        CreateLearningEntry.builder()
             .name("Maximum Subarray")
             .link("https://leetcode.com/problems/maximum-subarray/")
             .attempt(1)
@@ -62,8 +62,8 @@ class LearningEntryServiceIntegrationTest {
 
   @Test
   void testCreateNew() {
-    CreateLearningEntryRequest entry1 =
-        CreateLearningEntryRequest.builder()
+    CreateLearningEntry entry1 =
+        CreateLearningEntry.builder()
             .name("Maximum Subarray")
             .notes("https://leetcode.com/problems/maximum-subarray/")
             .build();
@@ -71,7 +71,7 @@ class LearningEntryServiceIntegrationTest {
     LearningEntryProto createdEntry = learningEntryService.createNew(entry1);
 
     //    learningEntryService.update(
-    //        UpdateLearningEntryRequest.builder()
+    //        UpdateLearningEntry.builder()
     //            .id(createdEntry.getId())
     //            .name(createdEntry.getName())
     //            .notes(createdEntry.getNotes())
@@ -81,7 +81,7 @@ class LearningEntryServiceIntegrationTest {
     // learningEntryService.get(createdEntry.getId());
     //
     //    learningEntryService.update(
-    //        UpdateLearningEntryRequest.builder()
+    //        UpdateLearningEntry.builder()
     //            .id(createdEntry.getId())
     //            .name(createdEntry.getName())
     //            .notes(createdEntry.getNotes())

@@ -1,15 +1,13 @@
 package org.dzianis.spacerep.controller.model;
 
 import java.time.LocalDate;
-import java.util.List;
 import lombok.Builder;
 import lombok.Builder.Default;
-import lombok.Singular;
 import lombok.Value;
 
 @Value
 @Builder(toBuilder = true)
-public class CreateLearningEntryRequest {
+public class CreateLearningEntry {
   String name;
 
   @Default String notes = "";
@@ -18,5 +16,5 @@ public class CreateLearningEntryRequest {
 
   Integer attempt;
 
-  @Singular List<String> links;
+  String link;
 }

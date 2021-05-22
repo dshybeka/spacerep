@@ -8,8 +8,8 @@ import com.google.common.collect.ImmutableList;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import org.dzianis.spacerep.controller.model.CreateLearningEntryRequest;
-import org.dzianis.spacerep.controller.model.UpdateLearningEntryRequest;
+import org.dzianis.spacerep.controller.model.CreateLearningEntry;
+import org.dzianis.spacerep.controller.model.UpdateLearningEntry;
 import org.dzianis.spacerep.converter.LocalDateConverter;
 import org.dzianis.spacerep.dao.LearningEntryDao;
 import org.dzianis.spacerep.model.LearningEntry;
@@ -64,7 +64,7 @@ public class LearningEntryService {
         .collect(toImmutableList());
   }
 
-  public LearningEntryProto createNew(CreateLearningEntryRequest request) {
+  public LearningEntryProto createNew(CreateLearningEntry request) {
     Preconditions.checkNotNull(request.getName(), "Name should not be null.");
 
     LearningEntry learningEntry =
@@ -72,7 +72,7 @@ public class LearningEntryService {
             .name(request.getName())
             .notes(request.getNotes())
             .attempt(request.getAttempt())
-            .links(request.getLinks())
+            .link(request.getLink())
             .createdAt(timeSource.now())
             .updatedAt(timeSource.now())
             .status(Status.SCHEDULED)
@@ -94,7 +94,7 @@ public class LearningEntryService {
     return createdEntry;
   }
 
-  public LearningEntryProto update(UpdateLearningEntryRequest request) {
+  public LearningEntryProto update(UpdateLearningEntry request) {
     LearningEntryProto storedEntry =
         learningEntryDao
             .get(request.getId())
@@ -113,7 +113,7 @@ public class LearningEntryService {
             .name(request.getName())
             .notes(request.getNotes())
             .status(request.getStatus())
-            .links(request.getLinks())
+            .link(request.getLink())
             .scheduledFor(
                 Optional.ofNullable(request.getScheduleFor())
                     .orElseGet(() -> schedulingService.schedule(learningEntry)))

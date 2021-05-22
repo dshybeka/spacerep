@@ -26,7 +26,7 @@ public class LearningEntry {
 
   @Singular ImmutableList<EasinessFactor> easinessFactors;
 
-  @Singular ImmutableList<String> links;
+  String link;
 
   Mark lastMark;
 

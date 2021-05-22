@@ -22,7 +22,9 @@
   </tr>
 
   <tr th:each="entry : ${entries}">
-    <td scope="row" th:text="${entry.id}"></td>
+    <td scope="row" >
+      <a th:href="@{/edit/{id}(id=${entry.id})}"><span th:text="${entry.id}"/></a>
+    </td>
     <td th:text="${entry.name}"></td>
     <td>
       <span th:text="${entry.scheduledFor.year}"/>/<span th:text="${entry.scheduledFor.month}"/>/<span th:text="${entry.scheduledFor.day}"/>
