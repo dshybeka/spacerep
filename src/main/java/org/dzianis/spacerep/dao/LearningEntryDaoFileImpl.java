@@ -59,6 +59,14 @@ class LearningEntryDaoFileImpl implements LearningEntryDao {
         });
   }
 
+  @Override
+  public boolean containsName(String name) {
+    return data.values().stream()
+        .map(LearningEntryProto::getName)
+        .map(String::toLowerCase)
+        .anyMatch(entryName -> entryName.equals(name.toLowerCase()));
+  }
+
   private void persistState() {
     storageConnector.persistState(toState());
   }

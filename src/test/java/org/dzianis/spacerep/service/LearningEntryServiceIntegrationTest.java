@@ -103,16 +103,16 @@ class LearningEntryServiceIntegrationTest {
         CreateLearningEntry.builder()
             .name("Length of Last Word")
             .link("https://leetcode.com/problems/length-of-last-word/")
-            .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 5, 24))
+            .attempt(3)
+            .scheduleFor(LocalDate.of(2021, 6, 14))
             .build());
 
     learningEntryService.createNew(
         CreateLearningEntry.builder()
             .name("Container With Most Water")
             .link("https://leetcode.com/problems/container-with-most-water/")
-            .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 5, 24))
+            .attempt(3)
+            .scheduleFor(LocalDate.of(2021, 6, 14))
             .build());
 
     learningEntryService.createNew(
@@ -155,41 +155,85 @@ class LearningEntryServiceIntegrationTest {
             .scheduleFor(LocalDate.of(2021, 5, 27))
             .build());
 
-//    todo: add last offset to the model.
-  }
-
-  @Test
-  void testCreateNew() {
-    CreateLearningEntry entry1 =
+    learningEntryService.createNew(
         CreateLearningEntry.builder()
-            .name("Maximum Subarray")
-            .notes("https://leetcode.com/problems/maximum-subarray/")
-            .build();
+            .name("Convert Sorted Array to Binary Search Tree")
+            .link("https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/")
+            .attempt(2)
+            .scheduleFor(LocalDate.of(2021, 5, 27))
+            .build());
 
-    LearningEntryProto createdEntry = learningEntryService.createNew(entry1);
+    learningEntryService.createNew(
+        CreateLearningEntry.builder()
+            .name("Balanced Binary Tree")
+            .link("https://leetcode.com/problems/balanced-binary-tree/")
+            .attempt(2)
+            .scheduleFor(LocalDate.of(2021, 5, 28))
+            .build());
 
-    //    learningEntryService.update(
-    //        UpdateLearningEntry.builder()
-    //            .id(createdEntry.getId())
-    //            .name(createdEntry.getName())
-    //            .notes(createdEntry.getNotes())
-    //            .markValue(4)
-    //            .build());
-    //    LearningEntryProto entity1AfterFirstUpdate =
-    // learningEntryService.get(createdEntry.getId());
-    //
-    //    learningEntryService.update(
-    //        UpdateLearningEntry.builder()
-    //            .id(createdEntry.getId())
-    //            .name(createdEntry.getName())
-    //            .notes(createdEntry.getNotes())
-    //            .markValue(4)
-    //            .build());
-    //    LearningEntryProto entity1AfterFirstUpdate2 =
-    // learningEntryService.get(createdEntry.getId());
-    //
-    //    System.out.println("entity1AfterFirstUpdate " + entity1AfterFirstUpdate);
-    //    System.out.println("entity1AfterFirstUpdate2 " + entity1AfterFirstUpdate2);
+    learningEntryService.createNew(
+        CreateLearningEntry.builder()
+            .name("Minimum Depth of Binary Tree")
+            .link("https://leetcode.com/problems/minimum-depth-of-binary-tree/")
+            .attempt(2)
+            .scheduleFor(LocalDate.of(2021, 5, 31))
+            .build());
+
+    learningEntryService.createNew(
+        CreateLearningEntry.builder()
+            .name("Path Sum")
+            .link("https://leetcode.com/problems/path-sum/")
+            .attempt(2)
+            .scheduleFor(LocalDate.of(2021, 6, 1))
+            .build());
+
+    learningEntryService.createNew(
+        CreateLearningEntry.builder()
+            .name("3Sum")
+            .link("https://leetcode.com/problems/3sum/")
+            .attempt(1)
+            .scheduleFor(LocalDate.of(2021, 6, 9))
+            .build());
+
+    learningEntryService.createNew(
+        CreateLearningEntry.builder()
+            .name("Pascal's Triangle")
+            .link("https://leetcode.com/problems/pascals-triangle/")
+            .attempt(2)
+            .scheduleFor(LocalDate.of(2021, 6, 7))
+            .build());
+
+    learningEntryService.createNew(
+        CreateLearningEntry.builder()
+            .name("Best Time to Buy and Sell Stock")
+            .link("https://leetcode.com/problems/best-time-to-buy-and-sell-stock/")
+            .attempt(2)
+            .scheduleFor(LocalDate.of(2021, 6, 7))
+            .build());
+
+    learningEntryService.createNew(
+        CreateLearningEntry.builder()
+            .name("Valid Palindrome")
+            .link("https://leetcode.com/problems/valid-palindrome/")
+            .attempt(1)
+            .scheduleFor(LocalDate.of(2021, 5, 28))
+            .build());
+
+    learningEntryService.createNew(
+        CreateLearningEntry.builder()
+            .name("Pascal's Triangle II")
+            .link("https://leetcode.com/problems/pascals-triangle-ii/submissions/")
+            .attempt(1)
+            .scheduleFor(LocalDate.of(2021, 5, 29))
+            .build());
+
+    learningEntryService.createNew(
+        CreateLearningEntry.builder()
+            .name("3Sum Closest")
+            .link("https://leetcode.com/problems/3sum-closest/")
+            .attempt(1)
+            .scheduleFor(LocalDate.of(2021, 5, 31))
+            .build());
   }
 
   @Test

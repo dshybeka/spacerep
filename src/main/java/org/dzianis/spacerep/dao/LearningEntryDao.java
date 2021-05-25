@@ -15,4 +15,6 @@ public interface LearningEntryDao {
   ImmutableList<LearningEntryProto> getAll();
 
   void delete(long id);
+
+  boolean containsName(String name);
 }

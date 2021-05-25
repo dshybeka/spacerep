@@ -76,6 +76,8 @@ public class LearningEntryService {
 
   public LearningEntryProto createNew(CreateLearningEntry request) {
     Preconditions.checkNotNull(request.getName(), "Name should not be null.");
+    Preconditions.checkArgument(
+        !learningEntryDao.containsName(request.getName()), request.getName() + " created already.");
 
     LearningEntry learningEntry =
         LearningEntry.builder()
@@ -205,7 +207,7 @@ public class LearningEntryService {
     LocalDate scheduledFor = localDateConverter.toLocalDate(entry.getScheduledFor());
     LocalDate now = timeSource.localDateNow();
 
-    return scheduledFor.isBefore(now);
+    return scheduledFor.isBefore(now) || scheduledFor.equals(now);
   }
 
   public void delete(long id) {
