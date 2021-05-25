@@ -31,7 +31,7 @@
     <th scope="col">Name</th>
     <th scope="col">Scheduled</th>
     <th scope="col">Links</th>
-    <th scope="col">Status</th>
+    <th scope="col">Mark</th>
     <th scope="col">Attempt</th>
     <th scope="col">Notes</th>
     <th scope="col">X</th>
@@ -57,7 +57,7 @@
     <td>
       <a th:href="@{(${entry.link})}" target="_blank"><span th:text="${entry.link}"/></a>
     </td>
-    <td th:text="${entry.status}"></td>
+    <td th:text="${entry.lastMark.value}"></td>
     <td th:text="${entry.attempt}"></td>
     <td th:text="${entry.notes}"></td>
     <td >

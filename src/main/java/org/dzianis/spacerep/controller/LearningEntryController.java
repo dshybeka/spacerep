@@ -77,7 +77,7 @@ public class LearningEntryController {
   @PostMapping("/update/{id}")
   public String update(@PathVariable("id") long id, UpdateLearningEntry entry) {
     Preconditions.checkArgument(id == entry.getId(), "Id of entity and path should be the same.");
-    learningEntryService.updateWithoutMark(entry);
+    learningEntryService.updateWithoutProcess(entry);
     return "redirect:/";
   }
 

@@ -106,7 +106,7 @@ public class LearningEntryService {
     return createdEntry;
   }
 
-  public LearningEntryProto updateWithoutMark(UpdateLearningEntry request) {
+  public LearningEntryProto updateWithoutProcess(UpdateLearningEntry request) {
     Preconditions.checkArgument(
         request.getMarkValue() > 0, "New mark value should be greater than 0.");
     LearningEntryProto storedEntry =
@@ -128,7 +128,8 @@ public class LearningEntryService {
             .scheduledFor(request.getScheduleFor())
             .updatedAt(timeSource.now())
             .attempt(request.getAttempt())
-            .mark(learningEntry.getLastMark().toBuilder().setValue(request.getMarkValue()).build());
+            .lastMark(
+                learningEntry.getLastMark().toBuilder().setValue(request.getMarkValue()).build());
 
     LearningEntryProto convertedEntry = learningEntryConverter.convert(builder.build());
     learningEntryDao.update(convertedEntry);
