@@ -207,4 +207,8 @@ public class LearningEntryService {
 
     return scheduledFor.isBefore(now);
   }
+
+  public void delete(long id) {
+    learningEntryDao.delete(id);
+  }
 }

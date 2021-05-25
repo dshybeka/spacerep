@@ -4,9 +4,11 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.base.Preconditions;
 import java.util.Arrays;
+import org.dzianis.spacerep.controller.model.CreateLearningEntry;
 import org.dzianis.spacerep.controller.model.UpdateLearningEntry;
 import org.dzianis.spacerep.converter.LocalDateConverter;
 import org.dzianis.spacerep.service.LearningEntryService;
+import org.dzianis.spacerep.service.TimeSource;
 import org.spacerep.protos.LearningEntryProto;
 import org.spacerep.protos.Status;
 import org.springframework.stereotype.Controller;
@@ -18,13 +20,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class LearningEntryController {
 
+  private static final int DEFAULT_SCHEDULE_DELAY = 7;
+
   private final LearningEntryService learningEntryService;
   private final LocalDateConverter localDateConverter;
+  private final TimeSource timeSource;
 
   public LearningEntryController(
-      LearningEntryService learningEntryService, LocalDateConverter localDateConverter) {
+      LearningEntryService learningEntryService,
+      LocalDateConverter localDateConverter,
+      TimeSource timeSource) {
     this.learningEntryService = learningEntryService;
     this.localDateConverter = localDateConverter;
+    this.timeSource = timeSource;
   }
 
   @GetMapping(value = "/")
@@ -67,16 +75,39 @@ public class LearningEntryController {
   }
 
   @PostMapping("/update/{id}")
-  public String updateUser(@PathVariable("id") long id, UpdateLearningEntry entry) {
+  public String update(@PathVariable("id") long id, UpdateLearningEntry entry) {
     Preconditions.checkArgument(id == entry.getId(), "Id of entity and path should be the same.");
     learningEntryService.updateWithoutMark(entry);
     return "redirect:/";
   }
 
   @PostMapping("/update-mark/{id}")
-  public String updateMarkUser(@PathVariable("id") long id, UpdateLearningEntry entry) {
+  public String updateMark(@PathVariable("id") long id, UpdateLearningEntry entry) {
     Preconditions.checkArgument(id == entry.getId(), "Id of entity and path should be the same.");
     learningEntryService.updateMarkAndReschedule(entry);
+    return "redirect:/";
+  }
+
+  @GetMapping("/create")
+  public String showCreateForm(Model model) {
+    model.addAttribute(
+        "entry",
+        CreateLearningEntry.builder()
+            .attempt(1)
+            .scheduleFor(timeSource.localDateNow().plusDays(DEFAULT_SCHEDULE_DELAY))
+            .build());
+    return "create-entry";
+  }
+
+  @PostMapping("/create")
+  public String createEntry(CreateLearningEntry entry) {
+    learningEntryService.createNew(entry);
+    return "redirect:/";
+  }
+
+  @PostMapping("/delete/{id}")
+  public String delete(@PathVariable("id") long id) {
+    learningEntryService.delete(id);
     return "redirect:/";
   }
 }

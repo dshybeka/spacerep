@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="ISO-8859-1"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+        crossorigin="anonymous">
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+          crossorigin="anonymous"></script>
+  <title>Edit learning entry</title>
+</head>
+<body>
+
+
+<div class="container">
+  <div class="row">
+    <a href="/">Back to list</a>
+  </div>
+
+  <div class="row">
+    <h4>Create learning entry</h4>
+  </div>
+
+  <div class="row">
+    <form action="#"
+          th:action="@{/create}"
+          th:object="${entry}"
+          method="post" autocomplete="off">
+
+      <div class="row mb-3 align-items-center">
+        <div class="col-auto">
+          <label for="name" class="form-label">Name</label>
+        </div>
+        <div class="col-auto">
+          <input type="text" class="form-control" id="name" th:field="*{name}">
+        </div>
+      </div>
+
+      <div class="row mb-3 align-items-center">
+        <div class="col-auto">
+          <label for="notes" class="form-label">Notes</label>
+        </div>
+        <div class="col-auto">
+          <textarea placeholder="Any notes..." type="text" class="form-control" id="notes"
+                    th:field="*{notes}"></textarea>
+        </div>
+      </div>
+
+      <div class="row mb-3 align-items-center">
+        <div class="col-auto">
+          <label for="scheduledFor" class="form-label">Scheduled for</label>
+        </div>
+        <div class="col-auto">
+          <div id="scheduledForGroup" class="input-group date">
+            <input type="text" class="form-control" id="scheduledFor" autocomplete="off"
+                   th:field="*{scheduleFor}"/>
+            <div class="input-group-append">
+              <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3 align-items-center">
+        <div class="col-auto">
+          <label for="link" class="form-label">Link</label>
+        </div>
+        <div id="link" class="col-6">
+          <input type="text" class="form-control" th:field="*{link}">
+        </div>
+      </div>
+
+      <div class="row mb-3 align-items-center">
+        <div class="col-auto">
+          <label for="attempt" class="form-label">Attempt</label>
+        </div>
+        <div id="attempt" class="col-6">
+          <input type="text" class="form-control" th:field="*{attempt}">
+        </div>
+      </div>
+
+
+      <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+  </div>
+
+</div>
+
+
+<script>
+  $(document).ready(function () {
+
+    $('#scheduledForGroup').datepicker({
+      format: 'yyyy-mm-dd',
+      autoclose: true,
+      calendarWeeks: true,
+      clearBtn: true,
+      disableTouchKeyboard: true
+    });
+
+  });
+</script>
+
+</body>
+</html>

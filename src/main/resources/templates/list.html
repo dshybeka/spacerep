@@ -12,13 +12,17 @@
 <body>
 <h4>List of learning entries</h4>
 
-<div th:unless="${all}" class="row">
-  <a href="/all">Show all</a>
-</div>
-
-<div th:if="${all}" class="row">
-  <a href="/">Show to process</a>
-</div>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active">
+      <a th:unless="${all}" href="/all">Show all</a>
+      <a th:if="${all}" href="/">Show to process</a>
+    </li>
+    <li class="breadcrumb-item" aria-current="page">
+      <a href="/create">Create</a>
+    </li>
+  </ol>
+</nav>
 
 <table class="table table-striped">
 
@@ -30,6 +34,7 @@
     <th scope="col">Status</th>
     <th scope="col">Attempt</th>
     <th scope="col">Notes</th>
+    <th scope="col">X</th>
   </tr>
 
   <tr th:each="entry : ${entries}">
@@ -55,6 +60,13 @@
     <td th:text="${entry.status}"></td>
     <td th:text="${entry.attempt}"></td>
     <td th:text="${entry.notes}"></td>
+    <td >
+      <form action="#"
+            th:action="@{/delete/{id}(id=${entry.id})}"
+            method="POST" autocomplete="off">
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+    </td>
   </tr>
 
 </table>
