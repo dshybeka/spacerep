@@ -1,9 +1,7 @@
 package org.dzianis.spacerep.service;
 
 import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import org.dzianis.spacerep.model.LearningEntry;
 import org.spacerep.protos.EasinessFactor;
@@ -39,7 +37,6 @@ public class SchedulingService {
 
     LocalDate lastUpdated = learningEntry.getUpdatedAt().toLocalDate();
     LocalDate scheduledDate = learningEntry.getScheduledFor();
-
 
     long previousDelayDays = ChronoUnit.DAYS.between(lastUpdated, scheduledDate);
     long nextDelay =

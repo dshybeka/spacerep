@@ -139,7 +139,6 @@ public class LearningEntryService {
     return convertedEntry;
   }
 
-  // TODO: add separate methods to only update data or to update mark and reschedule only.
   public LearningEntryProto updateMarkAndReschedule(UpdateLearningEntry request) {
     LearningEntryProto storedEntry =
         learningEntryDao

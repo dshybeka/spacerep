@@ -119,6 +119,15 @@
         </div>
       </div>
 
+      <div class="row mb-3 align-items-center">
+        <div class="col-auto">
+          <label for="delay-in-days" class="form-label">Delay in days</label>
+        </div>
+        <div id="delay-in-days" class="col-6">
+          <input type="text" class="form-control" th:field="*{delayInDays}">
+        </div>
+      </div>
+
 
       <button type="submit" class="btn btn-primary">Update</button>
     </form>

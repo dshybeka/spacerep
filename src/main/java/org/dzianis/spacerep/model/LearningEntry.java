@@ -43,4 +43,6 @@ public class LearningEntry {
   Status status;
 
   LocalDate scheduledFor;
+
+  int delayInDays;
 }

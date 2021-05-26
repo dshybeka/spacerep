@@ -33,6 +33,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/longest-substring-without-repeating-characters")
             .attempt(3)
             .scheduleFor(LocalDate.of(2021, 6, 8))
+            .delayInDays(21)
             .build());
 
     learningEntryService.createNew(
@@ -41,6 +42,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/valid-parentheses/submissions/")
             .attempt(3)
             .scheduleFor(LocalDate.of(2021, 6, 9))
+            .delayInDays(21)
             .build());
 
     learningEntryService.createNew(
@@ -49,6 +51,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/longest-palindromic-substring/")
             .attempt(3)
             .scheduleFor(LocalDate.of(2021, 6, 9))
+            .delayInDays(21)
             .build());
 
     learningEntryService.createNew(
@@ -57,6 +60,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/merge-two-sorted-lists/submissions/")
             .attempt(2)
             .scheduleFor(LocalDate.of(2021, 5, 27))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -65,6 +69,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/remove-duplicates-from-sorted-array/")
             .attempt(2)
             .scheduleFor(LocalDate.of(2021, 5, 27))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -73,6 +78,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/zigzag-conversion/")
             .attempt(3)
             .scheduleFor(LocalDate.of(2021, 6, 10))
+            .delayInDays(21)
             .build());
 
     learningEntryService.createNew(
@@ -81,6 +87,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/string-to-integer-atoi/")
             .attempt(3)
             .scheduleFor(LocalDate.of(2021, 6, 10))
+            .delayInDays(21)
             .build());
 
     learningEntryService.createNew(
@@ -89,6 +96,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/search-insert-position/")
             .attempt(3)
             .scheduleFor(LocalDate.of(2021, 6, 11))
+            .delayInDays(21)
             .build());
 
     learningEntryService.createNew(
@@ -97,6 +105,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/maximum-subarray/")
             .attempt(2)
             .scheduleFor(LocalDate.of(2021, 6, 4))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -105,6 +114,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/length-of-last-word/")
             .attempt(3)
             .scheduleFor(LocalDate.of(2021, 6, 14))
+            .delayInDays(21)
             .build());
 
     learningEntryService.createNew(
@@ -113,6 +123,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/container-with-most-water/")
             .attempt(3)
             .scheduleFor(LocalDate.of(2021, 6, 14))
+            .delayInDays(21)
             .build());
 
     learningEntryService.createNew(
@@ -121,14 +132,16 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/add-binary/")
             .attempt(2)
             .scheduleFor(LocalDate.of(2021, 6, 1))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
         CreateLearningEntry.builder()
             .name("Sqrt(x)")
             .link("https://leetcode.com/problems/sqrtx/")
-            .attempt(1)
-            .scheduleFor(LocalDate.of(2021, 5, 25))
+            .attempt(2)
+            .scheduleFor(LocalDate.of(2021, 6, 8))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -137,6 +150,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/integer-to-roman/")
             .attempt(2)
             .scheduleFor(LocalDate.of(2021, 5, 26))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -145,6 +159,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/remove-duplicates-from-sorted-list/")
             .attempt(2)
             .scheduleFor(LocalDate.of(2021, 6, 3))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -153,6 +168,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/merge-sorted-array/")
             .attempt(2)
             .scheduleFor(LocalDate.of(2021, 5, 27))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -161,6 +177,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/")
             .attempt(2)
             .scheduleFor(LocalDate.of(2021, 5, 27))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -169,6 +186,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/balanced-binary-tree/")
             .attempt(2)
             .scheduleFor(LocalDate.of(2021, 5, 28))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -177,6 +195,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/minimum-depth-of-binary-tree/")
             .attempt(2)
             .scheduleFor(LocalDate.of(2021, 5, 31))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -185,6 +204,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/path-sum/")
             .attempt(2)
             .scheduleFor(LocalDate.of(2021, 6, 1))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -193,6 +213,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/3sum/")
             .attempt(1)
             .scheduleFor(LocalDate.of(2021, 6, 9))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -201,6 +222,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/pascals-triangle/")
             .attempt(2)
             .scheduleFor(LocalDate.of(2021, 6, 7))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -209,6 +231,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/best-time-to-buy-and-sell-stock/")
             .attempt(2)
             .scheduleFor(LocalDate.of(2021, 6, 7))
+            .delayInDays(14)
             .build());
 
     learningEntryService.createNew(
@@ -217,6 +240,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/valid-palindrome/")
             .attempt(1)
             .scheduleFor(LocalDate.of(2021, 5, 28))
+            .delayInDays(7)
             .build());
 
     learningEntryService.createNew(
@@ -225,6 +249,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/pascals-triangle-ii/submissions/")
             .attempt(1)
             .scheduleFor(LocalDate.of(2021, 5, 29))
+            .delayInDays(7)
             .build());
 
     learningEntryService.createNew(
@@ -233,6 +258,7 @@ class LearningEntryServiceIntegrationTest {
             .link("https://leetcode.com/problems/3sum-closest/")
             .attempt(1)
             .scheduleFor(LocalDate.of(2021, 5, 31))
+            .delayInDays(7)
             .build());
   }
 

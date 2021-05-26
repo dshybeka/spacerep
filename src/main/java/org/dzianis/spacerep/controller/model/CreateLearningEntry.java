@@ -21,4 +21,6 @@ public class CreateLearningEntry {
   Integer attempt;
 
   String link;
+
+  Integer delayInDays;
 }

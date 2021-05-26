@@ -28,4 +28,6 @@ public class UpdateLearningEntry {
   String link;
 
   Integer attempt;
+
+  Integer delayInDays;
 }

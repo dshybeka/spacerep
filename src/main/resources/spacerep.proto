@@ -42,6 +42,8 @@ message LearningEntryProto {
   EasinessFactor last_easiness_factor = 14;
 
   string link = 15;
+
+  int32 delay_in_days = 16;
 }
 
 message Mark {
