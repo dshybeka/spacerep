@@ -21,7 +21,7 @@ public class UpdateLearningEntry {
   Status status;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")
-  LocalDate scheduleFor;
+  LocalDate scheduledFor;
 
   Integer markValue;
 

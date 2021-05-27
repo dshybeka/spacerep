@@ -28,7 +28,8 @@ class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto
             .setUpdatedAt(localDateConverter.safeToTimestamp(learningEntry.getUpdatedAt()))
             .setArchivedAt(localDateConverter.safeToTimestamp(learningEntry.getArchivedAt()))
             .setAttempt(learningEntry.getAttempt())
-            .setScheduledFor(localDateConverter.safeToDateProto(learningEntry.getScheduledFor()));
+            .setScheduledFor(localDateConverter.safeToDateProto(learningEntry.getScheduledFor()))
+            .setDelayInDays(learningEntry.getDelayInDays());
     if (learningEntry.getStatus() != null) {
       builder.setStatus(learningEntry.getStatus());
     }
@@ -71,6 +72,7 @@ class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto
         .lastMark(learningEntryProto.getLastMark())
         .lastEasinessFactor(learningEntryProto.getLastEasinessFactor())
         .link(learningEntryProto.getLink())
+        .delayInDays(learningEntryProto.getDelayInDays())
         .build();
   }
 }

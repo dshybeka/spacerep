@@ -70,6 +70,7 @@ class LearningEntryConverterTest {
           .scheduledFor(SCHEDULED_FOR)
           .lastMark(Mark.newBuilder().setValue(5).build())
           .lastEasinessFactor(EasinessFactor.newBuilder().setValue(2.32).build())
+          .delayInDays(33)
           .build();
 
   private static final LearningEntryProto LEARNING_ENTRY_PROTO =
@@ -91,6 +92,7 @@ class LearningEntryConverterTest {
           .setScheduledFor(SCHEDULED_FOR_DATE)
           .setLastMark(Mark.newBuilder().setValue(5).build())
           .setLastEasinessFactor(EasinessFactor.newBuilder().setValue(2.32).build())
+          .setDelayInDays(33)
           .build();
 
   @Autowired private Converter<LearningEntry, LearningEntryProto> converter;

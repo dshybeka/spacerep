@@ -32,7 +32,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Longest Substring Without Repeating Characters")
             .link("https://leetcode.com/problems/longest-substring-without-repeating-characters")
             .attempt(3)
-            .scheduleFor(LocalDate.of(2021, 6, 8))
+            .scheduledFor(LocalDate.of(2021, 6, 8))
             .delayInDays(21)
             .build());
 
@@ -41,7 +41,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Valid parenthesis")
             .link("https://leetcode.com/problems/valid-parentheses/submissions/")
             .attempt(3)
-            .scheduleFor(LocalDate.of(2021, 6, 9))
+            .scheduledFor(LocalDate.of(2021, 6, 9))
             .delayInDays(21)
             .build());
 
@@ -50,7 +50,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Longest Palindromic Substring")
             .link("https://leetcode.com/problems/longest-palindromic-substring/")
             .attempt(3)
-            .scheduleFor(LocalDate.of(2021, 6, 9))
+            .scheduledFor(LocalDate.of(2021, 6, 9))
             .delayInDays(21)
             .build());
 
@@ -59,7 +59,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Merge two lists")
             .link("https://leetcode.com/problems/merge-two-sorted-lists/submissions/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 5, 27))
+            .scheduledFor(LocalDate.of(2021, 5, 27))
             .delayInDays(14)
             .build());
 
@@ -68,7 +68,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Remove Duplicates from Sorted Array")
             .link("https://leetcode.com/problems/remove-duplicates-from-sorted-array/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 5, 27))
+            .scheduledFor(LocalDate.of(2021, 5, 27))
             .delayInDays(14)
             .build());
 
@@ -77,7 +77,7 @@ class LearningEntryServiceIntegrationTest {
             .name("ZigZag Conversion")
             .link("https://leetcode.com/problems/zigzag-conversion/")
             .attempt(3)
-            .scheduleFor(LocalDate.of(2021, 6, 10))
+            .scheduledFor(LocalDate.of(2021, 6, 10))
             .delayInDays(21)
             .build());
 
@@ -86,7 +86,7 @@ class LearningEntryServiceIntegrationTest {
             .name("String to Integer (atoi)")
             .link("https://leetcode.com/problems/string-to-integer-atoi/")
             .attempt(3)
-            .scheduleFor(LocalDate.of(2021, 6, 10))
+            .scheduledFor(LocalDate.of(2021, 6, 10))
             .delayInDays(21)
             .build());
 
@@ -95,7 +95,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Search Insert Position")
             .link("https://leetcode.com/problems/search-insert-position/")
             .attempt(3)
-            .scheduleFor(LocalDate.of(2021, 6, 11))
+            .scheduledFor(LocalDate.of(2021, 6, 11))
             .delayInDays(21)
             .build());
 
@@ -104,7 +104,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Maximum Subarray")
             .link("https://leetcode.com/problems/maximum-subarray/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 6, 4))
+            .scheduledFor(LocalDate.of(2021, 6, 4))
             .delayInDays(14)
             .build());
 
@@ -113,7 +113,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Length of Last Word")
             .link("https://leetcode.com/problems/length-of-last-word/")
             .attempt(3)
-            .scheduleFor(LocalDate.of(2021, 6, 14))
+            .scheduledFor(LocalDate.of(2021, 6, 14))
             .delayInDays(21)
             .build());
 
@@ -122,7 +122,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Container With Most Water")
             .link("https://leetcode.com/problems/container-with-most-water/")
             .attempt(3)
-            .scheduleFor(LocalDate.of(2021, 6, 14))
+            .scheduledFor(LocalDate.of(2021, 6, 14))
             .delayInDays(21)
             .build());
 
@@ -131,7 +131,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Add Binary")
             .link("https://leetcode.com/problems/add-binary/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 6, 1))
+            .scheduledFor(LocalDate.of(2021, 6, 1))
             .delayInDays(14)
             .build());
 
@@ -140,7 +140,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Sqrt(x)")
             .link("https://leetcode.com/problems/sqrtx/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 6, 8))
+            .scheduledFor(LocalDate.of(2021, 6, 8))
             .delayInDays(14)
             .build());
 
@@ -149,7 +149,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Integer to Roman")
             .link("https://leetcode.com/problems/integer-to-roman/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 5, 26))
+            .scheduledFor(LocalDate.of(2021, 5, 26))
             .delayInDays(14)
             .build());
 
@@ -158,7 +158,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Remove Duplicates from Sorted List")
             .link("https://leetcode.com/problems/remove-duplicates-from-sorted-list/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 6, 3))
+            .scheduledFor(LocalDate.of(2021, 6, 3))
             .delayInDays(14)
             .build());
 
@@ -167,7 +167,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Merge Sorted Array")
             .link("https://leetcode.com/problems/merge-sorted-array/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 5, 27))
+            .scheduledFor(LocalDate.of(2021, 5, 27))
             .delayInDays(14)
             .build());
 
@@ -176,7 +176,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Convert Sorted Array to Binary Search Tree")
             .link("https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 5, 27))
+            .scheduledFor(LocalDate.of(2021, 5, 27))
             .delayInDays(14)
             .build());
 
@@ -185,7 +185,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Balanced Binary Tree")
             .link("https://leetcode.com/problems/balanced-binary-tree/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 5, 28))
+            .scheduledFor(LocalDate.of(2021, 5, 28))
             .delayInDays(14)
             .build());
 
@@ -194,7 +194,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Minimum Depth of Binary Tree")
             .link("https://leetcode.com/problems/minimum-depth-of-binary-tree/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 5, 31))
+            .scheduledFor(LocalDate.of(2021, 5, 31))
             .delayInDays(14)
             .build());
 
@@ -203,7 +203,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Path Sum")
             .link("https://leetcode.com/problems/path-sum/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 6, 1))
+            .scheduledFor(LocalDate.of(2021, 6, 1))
             .delayInDays(14)
             .build());
 
@@ -212,7 +212,7 @@ class LearningEntryServiceIntegrationTest {
             .name("3Sum")
             .link("https://leetcode.com/problems/3sum/")
             .attempt(1)
-            .scheduleFor(LocalDate.of(2021, 6, 9))
+            .scheduledFor(LocalDate.of(2021, 6, 9))
             .delayInDays(14)
             .build());
 
@@ -221,7 +221,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Pascal's Triangle")
             .link("https://leetcode.com/problems/pascals-triangle/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 6, 7))
+            .scheduledFor(LocalDate.of(2021, 6, 7))
             .delayInDays(14)
             .build());
 
@@ -230,7 +230,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Best Time to Buy and Sell Stock")
             .link("https://leetcode.com/problems/best-time-to-buy-and-sell-stock/")
             .attempt(2)
-            .scheduleFor(LocalDate.of(2021, 6, 7))
+            .scheduledFor(LocalDate.of(2021, 6, 7))
             .delayInDays(14)
             .build());
 
@@ -239,7 +239,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Valid Palindrome")
             .link("https://leetcode.com/problems/valid-palindrome/")
             .attempt(1)
-            .scheduleFor(LocalDate.of(2021, 5, 28))
+            .scheduledFor(LocalDate.of(2021, 5, 28))
             .delayInDays(7)
             .build());
 
@@ -248,7 +248,7 @@ class LearningEntryServiceIntegrationTest {
             .name("Pascal's Triangle II")
             .link("https://leetcode.com/problems/pascals-triangle-ii/submissions/")
             .attempt(1)
-            .scheduleFor(LocalDate.of(2021, 5, 29))
+            .scheduledFor(LocalDate.of(2021, 5, 29))
             .delayInDays(7)
             .build());
 
@@ -257,7 +257,25 @@ class LearningEntryServiceIntegrationTest {
             .name("3Sum Closest")
             .link("https://leetcode.com/problems/3sum-closest/")
             .attempt(1)
-            .scheduleFor(LocalDate.of(2021, 5, 31))
+            .scheduledFor(LocalDate.of(2021, 5, 31))
+            .delayInDays(7)
+            .build());
+
+    learningEntryService.createNew(
+        CreateLearningEntry.builder()
+            .name("Linked List Cycle")
+            .link("https://leetcode.com/problems/linked-list-cycle/")
+            .attempt(1)
+            .scheduledFor(LocalDate.of(2021, 6, 2))
+            .delayInDays(7)
+            .build());
+
+    learningEntryService.createNew(
+        CreateLearningEntry.builder()
+            .name("Single Number")
+            .link("https://leetcode.com/problems/single-number/")
+            .attempt(1)
+            .scheduledFor(LocalDate.of(2021, 6, 2))
             .delayInDays(7)
             .build());
   }

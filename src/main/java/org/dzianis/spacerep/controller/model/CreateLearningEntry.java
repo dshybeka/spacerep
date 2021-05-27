@@ -16,7 +16,7 @@ public class CreateLearningEntry {
   @Default String notes = "";
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")
-  LocalDate scheduleFor;
+  LocalDate scheduledFor;
 
   Integer attempt;
 

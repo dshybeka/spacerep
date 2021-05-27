@@ -1,6 +1,7 @@
 package org.dzianis.spacerep.service;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 import com.google.common.base.Converter;
 import com.google.common.base.Preconditions;
@@ -94,8 +95,9 @@ public class LearningEntryService {
                     .setDate(timeSource.timestampNow())
                     .build())
             .scheduledFor(
-                Optional.ofNullable(request.getScheduleFor())
+                Optional.ofNullable(request.getScheduledFor())
                     .orElseGet(schedulingService::scheduleOnCreate))
+            .delayInDays(request.getDelayInDays())
             .build();
 
     LearningEntryProto createdEntry =
@@ -125,11 +127,13 @@ public class LearningEntryService {
             .notes(request.getNotes())
             .status(request.getStatus())
             .link(request.getLink())
-            .scheduledFor(request.getScheduleFor())
+            .scheduledFor(request.getScheduledFor())
             .updatedAt(timeSource.now())
             .attempt(request.getAttempt())
             .lastMark(
-                learningEntry.getLastMark().toBuilder().setValue(request.getMarkValue()).build());
+                learningEntry.getLastMark().toBuilder().setValue(request.getMarkValue()).build())
+            .delayInDays(
+                Optional.ofNullable(request.getDelayInDays()).orElse(storedEntry.getDelayInDays()));
 
     LearningEntryProto convertedEntry = learningEntryConverter.convert(builder.build());
     learningEntryDao.update(convertedEntry);
@@ -153,6 +157,9 @@ public class LearningEntryService {
         calculateEasinessFactor(learningEntry, request.getMarkValue());
 
     int nextAttempt = learningEntry.getAttempt() + 1;
+    LocalDate nextScheduledFor =
+        Optional.ofNullable(request.getScheduledFor())
+            .orElseGet(() -> schedulingService.schedule(learningEntry));
     LearningEntryBuilder builder =
         learningEntry
             .toBuilder()
@@ -161,9 +168,7 @@ public class LearningEntryService {
             .status(
                 nextAttempt > MAX_ATTEMPTS_TO_REPEAT ? Status.ARCHIVED : learningEntry.getStatus())
             .link(request.getLink())
-            .scheduledFor(
-                Optional.ofNullable(request.getScheduleFor())
-                    .orElseGet(() -> schedulingService.schedule(learningEntry)))
+            .scheduledFor(nextScheduledFor)
             .lastMark(
                 Mark.newBuilder()
                     .setValue(request.getMarkValue())
@@ -172,7 +177,10 @@ public class LearningEntryService {
             .lastEasinessFactor(newEasinessFactor)
             .updatedAt(timeSource.now())
             .attempt(nextAttempt)
-            .scheduledFor(schedulingService.schedule(learningEntry))
+            .delayInDays(
+                Math.abs(
+                    Math.toIntExact(
+                        DAYS.between(nextScheduledFor, learningEntry.getScheduledFor()))))
             .change(
                 String.format(
                     "Updated with ef: %s and scheduled: %s",

@@ -60,9 +60,10 @@ public class LearningEntryController {
             .notes(entry.getNotes())
             .name(entry.getName())
             .link(entry.getLink())
-            .scheduleFor(localDateConverter.toLocalDate(entry.getScheduledFor()))
+            .scheduledFor(localDateConverter.toLocalDate(entry.getScheduledFor()))
             .status(entry.getStatus())
             .attempt(entry.getAttempt())
+            .delayInDays(entry.getDelayInDays())
             .build());
     model.addAttribute(
         "statuses",
@@ -94,7 +95,8 @@ public class LearningEntryController {
         "entry",
         CreateLearningEntry.builder()
             .attempt(1)
-            .scheduleFor(timeSource.localDateNow().plusDays(DEFAULT_SCHEDULE_DELAY))
+            .scheduledFor(timeSource.localDateNow().plusDays(DEFAULT_SCHEDULE_DELAY))
+            .delayInDays(DEFAULT_SCHEDULE_DELAY)
             .build());
     return "create-entry";
   }

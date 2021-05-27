@@ -35,10 +35,7 @@ public class SchedulingService {
   private LocalDate scheduleOnUpdate(LearningEntry learningEntry) {
     EasinessFactor easinessFactor = learningEntry.getLastEasinessFactor();
 
-    LocalDate lastUpdated = learningEntry.getUpdatedAt().toLocalDate();
-    LocalDate scheduledDate = learningEntry.getScheduledFor();
-
-    long previousDelayDays = ChronoUnit.DAYS.between(lastUpdated, scheduledDate);
+    long previousDelayDays = learningEntry.getDelayInDays();
     long nextDelay =
         Math.min(
             Math.round(previousDelayDays * easinessFactor.getValue()), MAX_SCHEDULE_DELAY_DAYS);
