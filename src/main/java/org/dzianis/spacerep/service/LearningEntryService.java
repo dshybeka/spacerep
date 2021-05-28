@@ -31,7 +31,6 @@ public class LearningEntryService {
   private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_DATE;
 
   private static final double EASINESS_FACTOR_ON_CREATE = 2.5;
-  private static final int MAX_ACTIVE_ENTRIES_PER_LOAD = 3;
   private static final int MAX_ATTEMPTS_TO_REPEAT = 10;
 
   private final Comparator<LearningEntryProto> byScheduledForDesc;
@@ -67,7 +66,6 @@ public class LearningEntryService {
   public ImmutableList<LearningEntryProto> readAllActive() {
     return learningEntryDao.getAll().stream()
         .filter(this::isActive)
-        .limit(MAX_ACTIVE_ENTRIES_PER_LOAD)
         .collect(toImmutableList());
   }
 

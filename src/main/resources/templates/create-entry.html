@@ -41,29 +41,29 @@
           method="post" autocomplete="off">
 
       <div class="row mb-3 align-items-center">
-        <div class="col-auto">
+        <div class="col-1">
           <label for="name" class="form-label">Name</label>
         </div>
-        <div class="col-auto">
+        <div class="col-6">
           <input type="text" class="form-control" id="name" th:field="*{name}">
         </div>
       </div>
 
       <div class="row mb-3 align-items-center">
-        <div class="col-auto">
+        <div class="col-1">
           <label for="notes" class="form-label">Notes</label>
         </div>
-        <div class="col-auto">
+        <div class="col-6">
           <textarea placeholder="Any notes..." type="text" class="form-control" id="notes"
                     th:field="*{notes}"></textarea>
         </div>
       </div>
 
       <div class="row mb-3 align-items-center">
-        <div class="col-auto">
+        <div class="col-1">
           <label for="scheduledFor" class="form-label">Scheduled for</label>
         </div>
-        <div class="col-auto">
+        <div class="col-6">
           <div id="scheduledForGroup" class="input-group date">
             <input type="text" class="form-control" id="scheduledFor" autocomplete="off"
                    th:field="*{scheduledFor}"/>
@@ -75,7 +75,7 @@
       </div>
 
       <div class="row mb-3 align-items-center">
-        <div class="col-auto">
+        <div class="col-1">
           <label for="link" class="form-label">Link</label>
         </div>
         <div id="link" class="col-6">
@@ -84,7 +84,7 @@
       </div>
 
       <div class="row mb-3 align-items-center">
-        <div class="col-auto">
+        <div class="col-1">
           <label for="attempt" class="form-label">Attempt</label>
         </div>
         <div id="attempt" class="col-6">
@@ -93,7 +93,7 @@
       </div>
 
       <div class="row mb-3 align-items-center">
-        <div class="col-auto">
+        <div class="col-1">
           <label for="delay-in-days" class="form-label">Delay in days</label>
         </div>
         <div id="delay-in-days" class="col-6">
