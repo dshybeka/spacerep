@@ -44,6 +44,8 @@ message LearningEntryProto {
   string link = 15;
 
   int32 delay_in_days = 16;
+
+  string uuid = 17;
 }
 
 message Mark {

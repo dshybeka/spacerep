@@ -39,4 +39,23 @@ public class LocalDateConverter {
         .setDay(localDate.getDayOfMonth())
         .build();
   }
+
+  public com.google.cloud.Timestamp toTimestamp(DateProto dateProto) {
+    if (DateProto.getDefaultInstance().equals(dateProto)) {
+      return com.google.cloud.Timestamp.fromProto(Timestamp.getDefaultInstance());
+    }
+    Timestamp timestamp =
+        safeToTimestamp(
+            LocalDate.of(dateProto.getYear(), dateProto.getMonth(), dateProto.getDay())
+                .atStartOfDay());
+
+    return com.google.cloud.Timestamp.fromProto(timestamp);
+  }
+
+  public DateProto fromTimestamp(com.google.cloud.Timestamp timestamp) {
+    if (Timestamp.getDefaultInstance().equals(timestamp.toProto())) {
+      return DateProto.getDefaultInstance();
+    }
+    return safeToDateProto(toLocalDateTime(timestamp.toProto()).toLocalDate());
+  }
 }

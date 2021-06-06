@@ -16,6 +16,7 @@
   <description>Spaced repetitions</description>
   <properties>
     <java.version>11</java.version>
+    <appengine-testing.version>1.9.64</appengine-testing.version>
   </properties>
   <dependencies>
 
@@ -62,7 +63,65 @@
       <artifactId>reactor-test</artifactId>
       <scope>test</scope>
     </dependency>
+
+
+    <!-- GCP -->
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-datastore</artifactId>
+    </dependency>
+
+    <!-- Testing -->
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-api-1.0-sdk</artifactId>
+      <version>${appengine-testing.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-testing</artifactId>
+      <version>${appengine-testing.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-api-stubs</artifactId>
+      <version>${appengine-testing.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-tools-sdk</artifactId>
+      <version>${appengine-testing.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.api-client</groupId>
+      <artifactId>google-api-client-appengine</artifactId>
+      <version>1.23.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.truth.extensions</groupId>
+      <artifactId>truth-proto-extension</artifactId>
+      <version>1.1.3</version>
+    </dependency>
+    <!-- END: Testing -->
+
   </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.google.cloud</groupId>
+        <artifactId>libraries-bom</artifactId>
+        <version>20.5.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <plugins>
@@ -82,7 +141,7 @@
       <plugin>
         <groupId>com.github.os72</groupId>
         <artifactId>protoc-jar-maven-plugin</artifactId>
-        <version>3.1.0.1</version>
+        <version>3.11.4</version>
         <executions>
           <execution>
             <phase>generate-sources</phase>
@@ -92,6 +151,9 @@
             <configuration>
               <protocVersion>3.1.0</protocVersion>
               <includeStdTypes>true</includeStdTypes>
+              <addProtoSources>all</addProtoSources>
+              <includeMavenTypes>direct</includeMavenTypes>
+              <includeMavenTypes>transitive</includeMavenTypes>
               <inputDirectories>
                 <include>src/main/resources</include>
               </inputDirectories>
