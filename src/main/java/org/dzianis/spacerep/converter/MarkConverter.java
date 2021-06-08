@@ -21,7 +21,7 @@ class MarkConverter extends Converter<Mark, FullEntity<IncompleteKey>> {
   protected Mark doBackward(FullEntity<IncompleteKey> entity) {
     return Mark.newBuilder()
         .setValue(Math.toIntExact(entity.getLong(markField(Mark.VALUE_FIELD_NUMBER))))
-        .setDate(Math.toIntExact(entity.getLong(markField(Mark.DATE_FIELD_NUMBER))))
+        .setDate(entity.getLong(markField(Mark.DATE_FIELD_NUMBER)))
         .build();
   }
 }

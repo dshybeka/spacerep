@@ -22,6 +22,7 @@ import static org.spacerep.protos.LearningEntryProto.UUID_FIELD_NUMBER;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.Entity.Builder;
 import com.google.cloud.datastore.EntityValue;
 import com.google.cloud.datastore.FullEntity;
 import com.google.cloud.datastore.IncompleteKey;
@@ -54,23 +55,32 @@ class DatastoreLearningEntryConverter extends Converter<LearningEntryProto, Enti
   @Override
   protected Entity doForward(LearningEntryProto learningEntry) {
     Key key = Key.fromUrlSafe(learningEntry.getUuid());
-    return Entity.newBuilder(key)
+    Builder builder = Entity.newBuilder(key);
+
+    if (!com.google.protobuf.Timestamp.getDefaultInstance().equals(learningEntry.getCreatedAt())) {
+      builder.set(
+          learningEntityField(CREATED_AT_FIELD_NUMBER),
+          Timestamp.fromProto(learningEntry.getCreatedAt()));
+    }
+    if (!com.google.protobuf.Timestamp.getDefaultInstance().equals(learningEntry.getUpdatedAt())) {
+      builder.set(
+          learningEntityField(UPDATED_AT_FIELD_NUMBER),
+          Timestamp.fromProto(learningEntry.getUpdatedAt()));
+    }
+    if (!com.google.protobuf.Timestamp.getDefaultInstance().equals(learningEntry.getArchivedAt())) {
+      builder.set(
+          learningEntityField(ARCHIVED_AT_FIELD_NUMBER),
+          Timestamp.fromProto(learningEntry.getArchivedAt()));
+    }
+
+    builder
         .set(learningEntityField(ID_FIELD_NUMBER), learningEntry.getId())
         .set(learningEntityField(NAME_FIELD_NUMBER), learningEntry.getName())
         .set(learningEntityField(NOTES_FIELD_NUMBER), learningEntry.getNotes())
         .set(
             learningEntityField(CHANGES_FIELD_NUMBER),
             listOfStringsToValue(learningEntry.getChangesList()))
-        .set(
-            learningEntityField(CREATED_AT_FIELD_NUMBER),
-            Timestamp.fromProto(learningEntry.getCreatedAt()))
-        .set(
-            learningEntityField(UPDATED_AT_FIELD_NUMBER),
-            Timestamp.fromProto(learningEntry.getUpdatedAt()))
         .set(learningEntityField(ATTEMPT_FIELD_NUMBER), learningEntry.getAttempt())
-        .set(
-            learningEntityField(ARCHIVED_AT_FIELD_NUMBER),
-            Timestamp.fromProto(learningEntry.getArchivedAt()))
         .set(learningEntityField(STATUS_FIELD_NUMBER), learningEntry.getStatusValue())
         .set(
             learningEntityField(SCHEDULED_FOR_FIELD_NUMBER),
@@ -88,42 +98,69 @@ class DatastoreLearningEntryConverter extends Converter<LearningEntryProto, Enti
             easinessFactorConverter.convert(learningEntry.getLastEasinessFactor()))
         .set(learningEntityField(LINK_FIELD_NUMBER), learningEntry.getLink())
         .set(learningEntityField(DELAY_IN_DAYS_FIELD_NUMBER), learningEntry.getDelayInDays())
-        .set(learningEntityField(UUID_FIELD_NUMBER), learningEntry.getUuid())
-        .build();
+        .set(learningEntityField(UUID_FIELD_NUMBER), learningEntry.getUuid());
+
+    return builder.build();
   }
 
   @Override
   protected LearningEntryProto doBackward(Entity entity) {
-    return LearningEntryProto.newBuilder()
-        .setId(entity.getLong(learningEntityField(ID_FIELD_NUMBER)))
-        .setName(entity.getString(learningEntityField(NAME_FIELD_NUMBER)))
-        .setNotes(entity.getString(learningEntityField(NOTES_FIELD_NUMBER)))
-        .addAllChanges(valueToListOfChanges(entity))
-        .setCreatedAt(entity.getTimestamp(learningEntityField(CREATED_AT_FIELD_NUMBER)).toProto())
-        .setUpdatedAt(entity.getTimestamp(learningEntityField(UPDATED_AT_FIELD_NUMBER)).toProto())
-        .setAttempt(Math.toIntExact(entity.getLong(learningEntityField(ATTEMPT_FIELD_NUMBER))))
-        .setArchivedAt(entity.getTimestamp(learningEntityField(ARCHIVED_AT_FIELD_NUMBER)).toProto())
-        .setStatusValue(Math.toIntExact(entity.getLong(learningEntityField(STATUS_FIELD_NUMBER))))
-        .setScheduledFor(
-            localDateConverter.fromTimestamp(
-                entity.getTimestamp(learningEntityField(SCHEDULED_FOR_FIELD_NUMBER))))
-        .addAllMark(entityToListOfMarks(entity.getList(learningEntityField(MARK_FIELD_NUMBER))))
-        .addAllEasinessFactor(
-            entityToListOfEasinessFactors(
-                entity.getList(learningEntityField(EASINESS_FACTOR_FIELD_NUMBER))))
-        .setLink(entity.getString(learningEntityField(LINK_FIELD_NUMBER)))
-        .setDelayInDays(
-            Math.toIntExact(entity.getLong(learningEntityField(DELAY_IN_DAYS_FIELD_NUMBER))))
-        .setUuid(entity.getString(learningEntityField(UUID_FIELD_NUMBER)))
-        .setLastMark(
-            markConverter
-                .reverse()
-                .convert(entity.getEntity(learningEntityField(LAST_MARK_FIELD_NUMBER))))
-        .setLastEasinessFactor(
-            easinessFactorConverter
-                .reverse()
-                .convert(entity.getEntity(learningEntityField(LAST_EASINESS_FACTOR_FIELD_NUMBER))))
-        .build();
+    LearningEntryProto.Builder builder =
+        LearningEntryProto.newBuilder()
+            .setId(entity.getLong(learningEntityField(ID_FIELD_NUMBER)))
+            .setName(entity.getString(learningEntityField(NAME_FIELD_NUMBER)))
+            .setNotes(entity.getString(learningEntityField(NOTES_FIELD_NUMBER)))
+            .addAllChanges(valueToListOfChanges(entity))
+            .setAttempt(Math.toIntExact(entity.getLong(learningEntityField(ATTEMPT_FIELD_NUMBER))))
+            .setStatusValue(
+                Math.toIntExact(entity.getLong(learningEntityField(STATUS_FIELD_NUMBER))))
+            .setScheduledFor(
+                localDateConverter.fromTimestamp(
+                    entity.getTimestamp(learningEntityField(SCHEDULED_FOR_FIELD_NUMBER))))
+            .addAllMark(entityToListOfMarks(entity.getList(learningEntityField(MARK_FIELD_NUMBER))))
+            .addAllEasinessFactor(
+                entityToListOfEasinessFactors(
+                    entity.getList(learningEntityField(EASINESS_FACTOR_FIELD_NUMBER))))
+            .setLink(entity.getString(learningEntityField(LINK_FIELD_NUMBER)))
+            .setDelayInDays(
+                Math.toIntExact(entity.getLong(learningEntityField(DELAY_IN_DAYS_FIELD_NUMBER))))
+            .setUuid(entity.getString(learningEntityField(UUID_FIELD_NUMBER)))
+            .setLastMark(
+                markConverter
+                    .reverse()
+                    .convert(entity.getEntity(learningEntityField(LAST_MARK_FIELD_NUMBER))))
+            .setLastEasinessFactor(
+                easinessFactorConverter
+                    .reverse()
+                    .convert(
+                        entity.getEntity(learningEntityField(LAST_EASINESS_FACTOR_FIELD_NUMBER))));
+
+    com.google.protobuf.Timestamp createdAt =
+        getTimestampOrDefault(entity, learningEntityField(CREATED_AT_FIELD_NUMBER));
+    if (!com.google.protobuf.Timestamp.getDefaultInstance().equals(createdAt)) {
+      builder.setCreatedAt(createdAt);
+    }
+    com.google.protobuf.Timestamp updatedAt =
+        getTimestampOrDefault(entity, learningEntityField(UPDATED_AT_FIELD_NUMBER));
+    if (!com.google.protobuf.Timestamp.getDefaultInstance().equals(createdAt)) {
+      builder.setUpdatedAt(updatedAt);
+    }
+    com.google.protobuf.Timestamp archivedAt =
+        getTimestampOrDefault(entity, learningEntityField(ARCHIVED_AT_FIELD_NUMBER));
+    if (!com.google.protobuf.Timestamp.getDefaultInstance().equals(createdAt)) {
+      builder.setArchivedAt(archivedAt);
+    }
+
+    return builder.build();
+  }
+
+  private static com.google.protobuf.Timestamp getTimestampOrDefault(
+      Entity entity, String fieldName) {
+    if (entity.contains(fieldName)) {
+      return entity.getTimestamp(fieldName).toProto();
+    } else {
+      return com.google.protobuf.Timestamp.getDefaultInstance();
+    }
   }
 
   private List<Value<?>> listOfEasinessFactorToValue(List<EasinessFactor> values) {

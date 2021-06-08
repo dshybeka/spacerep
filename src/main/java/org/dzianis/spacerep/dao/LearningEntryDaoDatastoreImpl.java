@@ -23,6 +23,9 @@ import org.dzianis.spacerep.exception.EntityNotFoundException;
 import org.spacerep.protos.LearningEntryProto;
 import org.springframework.beans.factory.annotation.Autowired;
 
+// Auth
+// https://cloud.google.com/docs/authentication/production
+
 // https://github.com/GoogleCloudPlatform/java-docs-samples/blob/2e5996c68440134a79f1511c57529fa5cf987628/appengine-java8/datastore/src/test/java/com/example/appengine/EntitiesTest.java
 // https://cloud.google.com/appengine/docs/standard/java/datastore/creating-entities
 

@@ -1,5 +1,6 @@
 package org.dzianis.spacerep.converter;
 
+import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.FullEntity;
 import com.google.cloud.datastore.IncompleteKey;
 import com.google.common.base.Converter;
@@ -20,6 +21,15 @@ public class ConverterConfig {
   }
 
   @Bean
+  public Converter<LearningEntryProto, Entity> learningEntryProtoConverter(
+      LocalDateConverter localDateConverter,
+      Converter<Mark, FullEntity<IncompleteKey>> markConverter,
+      Converter<EasinessFactor, FullEntity<IncompleteKey>> easinessFactorConverter) {
+    return new DatastoreLearningEntryConverter(
+        localDateConverter, markConverter, easinessFactorConverter);
+  }
+
+  @Bean
   public Converter<Mark, FullEntity<IncompleteKey>> markConverter() {
     return new MarkConverter();
   }
@@ -27,15 +37,6 @@ public class ConverterConfig {
   @Bean
   public Converter<EasinessFactor, FullEntity<IncompleteKey>> easinessFactorConverter() {
     return new EasinessFactorConverter();
-  }
-
-  @Bean
-  public DatastoreLearningEntryConverter datastoreLearningEntryConverter(
-      LocalDateConverter localDateConverter,
-      Converter<Mark, FullEntity<IncompleteKey>> markConverter,
-      Converter<EasinessFactor, FullEntity<IncompleteKey>> easinessFactorConverter) {
-    return new DatastoreLearningEntryConverter(
-        localDateConverter, markConverter, easinessFactorConverter);
   }
 
   @Bean

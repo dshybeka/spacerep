@@ -23,7 +23,7 @@ class EasinessFactorConverter extends Converter<EasinessFactor, FullEntity<Incom
   protected EasinessFactor doBackward(FullEntity<IncompleteKey> entity) {
     return EasinessFactor.newBuilder()
         .setValue(entity.getDouble(markField(Mark.VALUE_FIELD_NUMBER)))
-        .setDate(Math.toIntExact(entity.getLong(markField(Mark.DATE_FIELD_NUMBER))))
+        .setDate(entity.getLong(markField(Mark.DATE_FIELD_NUMBER)))
         .build();
   }
 }

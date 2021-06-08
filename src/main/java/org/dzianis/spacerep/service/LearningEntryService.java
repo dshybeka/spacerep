@@ -38,14 +38,15 @@ public class LearningEntryService {
   private final TimeSource timeSource;
   private final SchedulingService schedulingService;
   private final LearningEntryDao learningEntryDao;
+  private final LearningEntryDao datastoreLearningEntryDao;
   private final LocalDateConverter localDateConverter;
 
-  @Autowired
   public LearningEntryService(
       Converter<LearningEntry, LearningEntryProto> learningEntryConverter,
       TimeSource timeSource,
       SchedulingService schedulingService,
       LearningEntryDao learningEntryDao,
+      LearningEntryDao datastoreLearningEntryDao,
       LocalDateConverter localDateConverter) {
     this.learningEntryConverter = learningEntryConverter;
     this.timeSource = timeSource;
@@ -54,6 +55,7 @@ public class LearningEntryService {
     this.localDateConverter = localDateConverter;
     byScheduledForDesc =
         Comparator.comparing(e -> localDateConverter.toLocalDate(e.getScheduledFor()));
+    this.datastoreLearningEntryDao = datastoreLearningEntryDao;
   }
 
   public LearningEntryProto get(long id) {
@@ -70,7 +72,11 @@ public class LearningEntryService {
   }
 
   public ImmutableList<LearningEntryProto> readAll() {
+    ImmutableList<LearningEntryProto> all = datastoreLearningEntryDao.getAll();
+
+    System.out.println("all " + all);
     return learningEntryDao.getAll().stream().sorted(byScheduledForDesc).collect(toImmutableList());
+//    return all;
   }
 
   public LearningEntryProto createNew(CreateLearningEntry request) {
@@ -98,8 +104,11 @@ public class LearningEntryService {
             .delayInDays(request.getDelayInDays())
             .build();
 
-    LearningEntryProto createdEntry =
-        learningEntryDao.insert(learningEntryConverter.convert(learningEntry));
+//    LearningEntryProto createdEntry =
+//        learningEntryDao.insert(learningEntryConverter.convert(learningEntry));
+
+    LearningEntryProto createdEntry = datastoreLearningEntryDao
+        .insert(learningEntryConverter.convert(learningEntry));
 
     LOG.info("Learning entry with id: {} created.", createdEntry.getId());
 
