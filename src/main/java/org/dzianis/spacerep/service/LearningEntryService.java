@@ -22,7 +22,6 @@ import org.spacerep.protos.EasinessFactor;
 import org.spacerep.protos.LearningEntryProto;
 import org.spacerep.protos.Mark;
 import org.spacerep.protos.Status;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class LearningEntryService {
 
@@ -38,24 +37,21 @@ public class LearningEntryService {
   private final TimeSource timeSource;
   private final SchedulingService schedulingService;
   private final LearningEntryDao learningEntryDao;
-  private final LearningEntryDao datastoreLearningEntryDao;
   private final LocalDateConverter localDateConverter;
 
   public LearningEntryService(
       Converter<LearningEntry, LearningEntryProto> learningEntryConverter,
       TimeSource timeSource,
       SchedulingService schedulingService,
-      LearningEntryDao learningEntryDao,
       LearningEntryDao datastoreLearningEntryDao,
       LocalDateConverter localDateConverter) {
     this.learningEntryConverter = learningEntryConverter;
     this.timeSource = timeSource;
     this.schedulingService = schedulingService;
-    this.learningEntryDao = learningEntryDao;
+    this.learningEntryDao = datastoreLearningEntryDao;
     this.localDateConverter = localDateConverter;
     byScheduledForDesc =
         Comparator.comparing(e -> localDateConverter.toLocalDate(e.getScheduledFor()));
-    this.datastoreLearningEntryDao = datastoreLearningEntryDao;
   }
 
   public LearningEntryProto get(long id) {
@@ -66,17 +62,15 @@ public class LearningEntryService {
   }
 
   public ImmutableList<LearningEntryProto> readAllActive() {
-    return learningEntryDao.getAll().stream()
-        .filter(this::isActive)
-        .collect(toImmutableList());
+    return learningEntryDao.getAll().stream().filter(this::isActive).collect(toImmutableList());
   }
 
   public ImmutableList<LearningEntryProto> readAll() {
-    ImmutableList<LearningEntryProto> all = datastoreLearningEntryDao.getAll();
+    //    ImmutableList<LearningEntryProto> all = datastoreLearningEntryDao.getAll();
 
-    System.out.println("all " + all);
+    //    System.out.println("all " + all);
     return learningEntryDao.getAll().stream().sorted(byScheduledForDesc).collect(toImmutableList());
-//    return all;
+    //    return all;
   }
 
   public LearningEntryProto createNew(CreateLearningEntry request) {
@@ -104,11 +98,8 @@ public class LearningEntryService {
             .delayInDays(request.getDelayInDays())
             .build();
 
-//    LearningEntryProto createdEntry =
-//        learningEntryDao.insert(learningEntryConverter.convert(learningEntry));
-
-    LearningEntryProto createdEntry = datastoreLearningEntryDao
-        .insert(learningEntryConverter.convert(learningEntry));
+    LearningEntryProto createdEntry =
+        learningEntryDao.insert(learningEntryConverter.convert(learningEntry));
 
     LOG.info("Learning entry with id: {} created.", createdEntry.getId());
 
