@@ -12,9 +12,11 @@ public interface LearningEntryDao {
 
   Optional<LearningEntryProto> get(long id);
 
+  Optional<LearningEntryProto> get(String uuid);
+
   ImmutableList<LearningEntryProto> getAll();
 
-  void delete(long id);
+  void delete(String id);
 
   boolean containsName(String name);
 }

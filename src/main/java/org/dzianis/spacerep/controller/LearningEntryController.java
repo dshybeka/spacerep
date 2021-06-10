@@ -49,10 +49,10 @@ public class LearningEntryController {
     return "list";
   }
 
-  @GetMapping("/edit/{type}/{id}")
+  @GetMapping("/edit/{type}/{uuid}")
   public String showUpdateForm(
-      @PathVariable("type") String type, @PathVariable("id") long id, Model model) {
-    LearningEntryProto entry = learningEntryService.get(id);
+      @PathVariable("type") String type, @PathVariable("uuid") String uuid, Model model) {
+    LearningEntryProto entry = learningEntryService.get(uuid);
     model.addAttribute(
         "entry",
         UpdateLearningEntry.builder()
@@ -64,6 +64,7 @@ public class LearningEntryController {
             .status(entry.getStatus())
             .attempt(entry.getAttempt())
             .delayInDays(entry.getDelayInDays())
+            .uuid(entry.getUuid())
             .build());
     model.addAttribute(
         "statuses",
@@ -75,16 +76,16 @@ public class LearningEntryController {
     return type.equals("full") ? "edit-entry" : "update-mark-entry";
   }
 
-  @PostMapping("/update/{id}")
-  public String update(@PathVariable("id") long id, UpdateLearningEntry entry) {
-    Preconditions.checkArgument(id == entry.getId(), "Id of entity and path should be the same.");
+  @PostMapping("/update/{uuid}")
+  public String update(@PathVariable("uuid") String uuid, UpdateLearningEntry entry) {
+    Preconditions.checkArgument(uuid.equals(entry.getUuid()), "Uuid of entity and path should be the same.");
     learningEntryService.updateWithoutProcess(entry);
     return "redirect:/";
   }
 
-  @PostMapping("/update-mark/{id}")
-  public String updateMark(@PathVariable("id") long id, UpdateLearningEntry entry) {
-    Preconditions.checkArgument(id == entry.getId(), "Id of entity and path should be the same.");
+  @PostMapping("/update-mark/{uuid}")
+  public String updateMark(@PathVariable("uuid") String uuid, UpdateLearningEntry entry) {
+    Preconditions.checkArgument(uuid.equals(entry.getUuid()), "Uuid of entity and path should be the same.");
     learningEntryService.updateMarkAndReschedule(entry);
     return "redirect:/";
   }
@@ -107,9 +108,9 @@ public class LearningEntryController {
     return "redirect:/";
   }
 
-  @PostMapping("/delete/{id}")
-  public String delete(@PathVariable("id") long id) {
-    learningEntryService.delete(id);
+  @PostMapping("/delete/{uuid}")
+  public String delete(@PathVariable("uuid") String uuid) {
+    learningEntryService.delete(uuid);
     return "redirect:/";
   }
 }

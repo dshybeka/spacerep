@@ -81,6 +81,13 @@ class LearningEntryDaoDatastoreImpl implements LearningEntryDao {
   }
 
   @Override
+  public Optional<LearningEntryProto> get(String uuid) {
+    Entity entity = datastore.get(Key.fromUrlSafe(uuid));
+    return Optional.ofNullable(entity)
+        .map(v -> datastoreLearningEntryConverter.reverse().convert(v));
+  }
+
+  @Override
   public ImmutableList<LearningEntryProto> getAll() {
     Builder<LearningEntryProto> builder = ImmutableList.builder();
 
@@ -102,13 +109,13 @@ class LearningEntryDaoDatastoreImpl implements LearningEntryDao {
   }
 
   @Override
-  public void delete(long id) {
+  public void delete(String uuid) {
     LearningEntryProto learningEntryProto =
-        get(id)
+        get(uuid)
             .orElseThrow(
                 () ->
                     new EntityNotFoundException(
-                        "Learning entry with id " + id + " cannot be found."));
+                        "Learning entry with id " + uuid + " cannot be found."));
     datastore.delete(Key.fromUrlSafe(learningEntryProto.getUuid()));
   }
 

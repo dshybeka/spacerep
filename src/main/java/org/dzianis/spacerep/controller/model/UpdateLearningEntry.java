@@ -12,13 +12,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 public class UpdateLearningEntry {
-  long id;
+  Long id;
 
   String name;
 
   @Default String notes = "";
 
   Status status;
+
+  String uuid;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   LocalDate scheduledFor;

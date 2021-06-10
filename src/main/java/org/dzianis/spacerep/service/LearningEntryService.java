@@ -54,11 +54,11 @@ public class LearningEntryService {
         Comparator.comparing(e -> localDateConverter.toLocalDate(e.getScheduledFor()));
   }
 
-  public LearningEntryProto get(long id) {
+  public LearningEntryProto get(String uuid) {
     return learningEntryDao
-        .get(id)
+        .get(uuid)
         .orElseThrow(
-            () -> new IllegalArgumentException("Learning entry with id " + id + " not found."));
+            () -> new IllegalArgumentException("Learning entry with uuid " + uuid + " not found."));
   }
 
   public ImmutableList<LearningEntryProto> readAllActive() {
@@ -66,11 +66,7 @@ public class LearningEntryService {
   }
 
   public ImmutableList<LearningEntryProto> readAll() {
-    //    ImmutableList<LearningEntryProto> all = datastoreLearningEntryDao.getAll();
-
-    //    System.out.println("all " + all);
     return learningEntryDao.getAll().stream().sorted(byScheduledForDesc).collect(toImmutableList());
-    //    return all;
   }
 
   public LearningEntryProto createNew(CreateLearningEntry request) {
@@ -111,7 +107,7 @@ public class LearningEntryService {
         request.getMarkValue() > 0, "New mark value should be greater than 0.");
     LearningEntryProto storedEntry =
         learningEntryDao
-            .get(request.getId())
+            .get(request.getUuid())
             .orElseThrow(
                 () ->
                     new IllegalArgumentException(
@@ -144,7 +140,7 @@ public class LearningEntryService {
   public LearningEntryProto updateMarkAndReschedule(UpdateLearningEntry request) {
     LearningEntryProto storedEntry =
         learningEntryDao
-            .get(request.getId())
+            .get(request.getUuid())
             .orElseThrow(
                 () ->
                     new IllegalArgumentException(
@@ -216,7 +212,7 @@ public class LearningEntryService {
     return scheduledFor.isBefore(now) || scheduledFor.equals(now);
   }
 
-  public void delete(long id) {
+  public void delete(String id) {
     learningEntryDao.delete(id);
   }
 }

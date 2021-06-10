@@ -53,7 +53,7 @@ class LearningEntryConverterTest {
 
   private static final LearningEntry LEARNING_ENTRY =
       LearningEntry.builder()
-          .id(1)
+          .id(1L)
           .name("NAME")
           .notes("NOTES")
           .change("CHANGE_1")

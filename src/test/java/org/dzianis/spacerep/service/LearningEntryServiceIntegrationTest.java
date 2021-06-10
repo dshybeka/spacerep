@@ -287,7 +287,7 @@ class LearningEntryServiceIntegrationTest {
     System.out.println("all " + all);
 
     for (LearningEntryProto learningEntryProto : all) {
-      learningEntryDao.delete(learningEntryProto.getId());
+//      learningEntryDao.delete(learningEntryProto.getId());
     }
   }
 }

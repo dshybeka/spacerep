@@ -27,7 +27,7 @@
 <table class="table table-striped">
 
   <tr>
-    <th scope="col">Id</th>
+    <th scope="col">#</th>
     <th scope="col">Name</th>
     <th scope="col">Scheduled</th>
     <th scope="col">Links</th>
@@ -43,10 +43,10 @@
         <span th:text="${entry.id}"/>
       </div>
       <div class="col-auto">
-        <a th:href="@{/edit/full/{id}(id=${entry.id})}">(full)</a>
+        <a th:href="@{/edit/full/{uuid}(uuid=${entry.uuid})}">(full)</a>
       </div>
       <div class="col-auto">
-        <a th:href="@{/edit/process/{id}(id=${entry.id})}">(process)</a>
+        <a th:href="@{/edit/process/{uuid}(uuid=${entry.uuid})}">(process)</a>
       </div>
     </td>
     <td th:text="${entry.name}"></td>
@@ -62,7 +62,7 @@
     <td th:text="${entry.notes}"></td>
     <td >
       <form action="#"
-            th:action="@{/delete/{id}(id=${entry.id})}"
+            th:action="@{/delete/{uuid}(uuid=${entry.uuid})}"
             method="POST" autocomplete="off">
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>

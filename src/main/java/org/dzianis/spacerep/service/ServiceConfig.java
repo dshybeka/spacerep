@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+//https://github.com/GoogleCloudPlatform/java-docs-samples/tree/master/run/
 @Configuration
 @ComponentScan("org.dzianis.spacerep.service")
 public class ServiceConfig {

@@ -44,19 +44,18 @@ class LearningEntryDaoFileImpl implements LearningEntryDao {
   }
 
   @Override
+  public Optional<LearningEntryProto> get(String uuid) {
+    throw new IllegalStateException("Unimplemented.");
+  }
+
+  @Override
   public ImmutableList<LearningEntryProto> getAll() {
     return ImmutableList.copyOf(data.values());
   }
 
   @Override
-  public void delete(long id) {
-    data.compute(
-        id,
-        (id1, learningEntryProto) -> {
-          data.remove(id1);
-          persistState();
-          return learningEntryProto;
-        });
+  public void delete(String id) {
+    throw new IllegalStateException("Unimplemented.");
   }
 
   @Override

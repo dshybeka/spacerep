@@ -1,6 +1,7 @@
 package org.dzianis.spacerep.converter;
 
 import com.google.common.base.Converter;
+import java.util.Optional;
 import org.dzianis.spacerep.model.LearningEntry;
 import org.spacerep.protos.LearningEntryProto;
 import org.spacerep.protos.LearningEntryProto.Builder;
@@ -19,6 +20,7 @@ class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto
         LearningEntryProto.newBuilder()
             .setId(learningEntry.getId())
             .setName(learningEntry.getName())
+            .setUuid(Optional.ofNullable(learningEntry.getUuid()).orElse(""))
             .setNotes(learningEntry.getNotes())
             .addAllChanges(learningEntry.getChanges())
             .addAllMark(learningEntry.getMarks())
@@ -47,6 +49,7 @@ class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto
     return LearningEntry.builder()
         .id(learningEntryProto.getId())
         .name(learningEntryProto.getName())
+        .uuid(learningEntryProto.getUuid())
         .notes(learningEntryProto.getNotes())
         .changes(learningEntryProto.getChangesList())
         .marks(learningEntryProto.getMarkList())

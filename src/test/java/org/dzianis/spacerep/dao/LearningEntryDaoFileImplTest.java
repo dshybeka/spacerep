@@ -53,7 +53,7 @@ class LearningEntryDaoFileImplTest {
   void setUp() {
     ImmutableList<LearningEntryProto> storedEntries = learningEntryDao.getAll();
     for (LearningEntryProto storedEntry : storedEntries) {
-      learningEntryDao.delete(storedEntry.getId());
+//      learningEntryDao.delete(storedEntry.getId());
     }
 
     entry1 = learningEntryDao.insert(LearningEntryProto.newBuilder().setName("NAME_1").build());
@@ -78,7 +78,7 @@ class LearningEntryDaoFileImplTest {
     learningEntryDao.update(expectedEntry);
 
     assertEquals(expectedEntry, learningEntryDao.get(expectedEntry.getId()).get());
-    learningEntryDao.delete(expectedEntry.getId());
+//    learningEntryDao.delete(expectedEntry.getId());
     verify(storageConnector, times(3)).persistState(any());
   }
 
@@ -102,7 +102,7 @@ class LearningEntryDaoFileImplTest {
     expectedEntry = learningEntryDao.insert(expectedEntry);
 
     assertEquals(expectedEntry, learningEntryDao.get(expectedEntry.getId()).get());
-    learningEntryDao.delete(expectedEntry.getId());
+//    learningEntryDao.delete(expectedEntry.getId());
 
     assertTrue(learningEntryDao.get(expectedEntry.getId()).isEmpty());
   }

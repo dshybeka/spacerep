@@ -14,9 +14,11 @@ import org.spacerep.protos.Status;
 @Builder(toBuilder = true)
 public class LearningEntry {
 
-  long id;
+  Long id;
 
   String name;
+
+  String uuid;
 
   @Builder.Default String notes = "";
 
