@@ -37,10 +37,10 @@
     <th scope="col">X</th>
   </tr>
 
-  <tr th:each="entry : ${entries}">
+  <tr th:each="entry,iter : ${entries}">
     <td scope="row">
       <div class="col-auto">
-        <span th:text="${entry.id}"/>
+        <span th:text="${iter.index + 1}"/>
       </div>
       <div class="col-auto">
         <a th:href="@{/edit/full/{uuid}(uuid=${entry.uuid})}">(full)</a>
