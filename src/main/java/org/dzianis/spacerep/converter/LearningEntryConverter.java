@@ -18,7 +18,6 @@ class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto
   protected LearningEntryProto doForward(LearningEntry learningEntry) {
     Builder builder =
         LearningEntryProto.newBuilder()
-            .setId(learningEntry.getId())
             .setName(learningEntry.getName())
             .setUuid(Optional.ofNullable(learningEntry.getUuid()).orElse(""))
             .setNotes(learningEntry.getNotes())
@@ -47,7 +46,6 @@ class LearningEntryConverter extends Converter<LearningEntry, LearningEntryProto
   @Override
   protected LearningEntry doBackward(LearningEntryProto learningEntryProto) {
     return LearningEntry.builder()
-        .id(learningEntryProto.getId())
         .name(learningEntryProto.getName())
         .uuid(learningEntryProto.getUuid())
         .notes(learningEntryProto.getNotes())

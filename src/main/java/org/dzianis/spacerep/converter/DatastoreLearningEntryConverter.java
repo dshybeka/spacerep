@@ -107,7 +107,6 @@ class DatastoreLearningEntryConverter extends Converter<LearningEntryProto, Enti
   protected LearningEntryProto doBackward(Entity entity) {
     LearningEntryProto.Builder builder =
         LearningEntryProto.newBuilder()
-            .setId(entity.getLong(learningEntityField(ID_FIELD_NUMBER)))
             .setName(entity.getString(learningEntityField(NAME_FIELD_NUMBER)))
             .setNotes(entity.getString(learningEntityField(NOTES_FIELD_NUMBER)))
             .addAllChanges(valueToListOfChanges(entity))
