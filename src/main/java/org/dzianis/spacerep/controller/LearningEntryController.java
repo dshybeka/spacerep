@@ -38,14 +38,21 @@ public class LearningEntryController {
   @GetMapping(value = "/")
   public String index(Model model) {
     model.addAttribute("entries", learningEntryService.readAllActive());
-    model.addAttribute("all", false);
+    model.addAttribute("view", "allActive");
     return "list";
   }
 
   @GetMapping(value = "/all")
   public String showAll(Model model) {
     model.addAttribute("entries", learningEntryService.readAll());
-    model.addAttribute("all", true);
+    model.addAttribute("view", "all");
+    return "list";
+  }
+
+  @GetMapping(value = "/archive")
+  public String showArchive(Model model) {
+    model.addAttribute("entries", learningEntryService.readArchive());
+    model.addAttribute("view", "archive");
     return "list";
   }
 
@@ -78,14 +85,16 @@ public class LearningEntryController {
 
   @PostMapping("/update/{uuid}")
   public String update(@PathVariable("uuid") String uuid, UpdateLearningEntry entry) {
-    Preconditions.checkArgument(uuid.equals(entry.getUuid()), "Uuid of entity and path should be the same.");
+    Preconditions.checkArgument(
+        uuid.equals(entry.getUuid()), "Uuid of entity and path should be the same.");
     learningEntryService.updateWithoutProcess(entry);
     return "redirect:/";
   }
 
   @PostMapping("/update-mark/{uuid}")
   public String updateMark(@PathVariable("uuid") String uuid, UpdateLearningEntry entry) {
-    Preconditions.checkArgument(uuid.equals(entry.getUuid()), "Uuid of entity and path should be the same.");
+    Preconditions.checkArgument(
+        uuid.equals(entry.getUuid()), "Uuid of entity and path should be the same.");
     learningEntryService.updateMarkAndReschedule(entry);
     return "redirect:/";
   }

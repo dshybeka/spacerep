@@ -15,8 +15,9 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active">
-      <a th:unless="${all}" href="/all">Show all</a>
-      <a th:if="${all}" href="/">Show to process</a>
+      <a th:unless="${view == 'all'}" href="/all">Show all</a>
+      <a th:unless="${view == 'allActive'}" href="/">Show to process</a>
+      <a th:unless="${view == 'archive'}" href="/archive">Show to archive</a>
     </li>
     <li class="breadcrumb-item" aria-current="page">
       <a href="/create">Create</a>

@@ -94,7 +94,7 @@ class LearningEntryDaoDatastoreImpl implements LearningEntryDao {
     EntityQuery query =
         Query.newEntityQueryBuilder()
             .setKind(ENTITY_NAME)
-            .setOrderBy(OrderBy.desc(learningEntityField(SCHEDULED_FOR_FIELD_NUMBER)))
+            .setOrderBy(OrderBy.asc(learningEntityField(SCHEDULED_FOR_FIELD_NUMBER)))
             .build();
 
     QueryResults<Entity> results = datastore.run(query);
