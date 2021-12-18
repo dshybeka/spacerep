@@ -1,15 +1,18 @@
 package org.dzianis.spacerep.service;
 
+import com.google.common.base.Converter;
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDate;
 import org.dzianis.spacerep.controller.model.CreateLearningEntry;
 import org.dzianis.spacerep.converter.ConverterConfig;
 import org.dzianis.spacerep.dao.DaoConfig;
 import org.dzianis.spacerep.dao.LearningEntryDao;
+import org.dzianis.spacerep.model.LearningEntry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.spacerep.protos.LearningEntryProto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -20,10 +23,12 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
     loader = AnnotationConfigContextLoader.class)
 class LearningEntryServiceIntegrationTest {
 
-  //  @MockBean LearningEntryDao learningEntryDao;
-  @Autowired LearningEntryDao learningEntryDao;
+  @MockBean LearningEntryDao learningEntryDao;
+  //  @Autowired @DatastoreBased LearningEntryDao learningEntryDao;
 
   @Autowired private LearningEntryService learningEntryService;
+
+  @Autowired private Converter<LearningEntry, LearningEntryProto> learningEntryConverter;
 
   @Test
   void testCreateFew() {
@@ -287,7 +292,24 @@ class LearningEntryServiceIntegrationTest {
     System.out.println("all " + all);
 
     for (LearningEntryProto learningEntryProto : all) {
-//      learningEntryDao.delete(learningEntryProto.getId());
+      //      learningEntryDao.delete(learningEntryProto.getId());
+    }
+  }
+
+  @Test
+  void freezeEntries() {
+    ImmutableList<LearningEntryProto> all = learningEntryDao.getAll();
+
+    System.out.println("all " + all);
+
+    for (LearningEntryProto learningEntryProto : all) {
+      LearningEntry entry = learningEntryConverter.reverse().convert(learningEntryProto);
+      if (entry.getAttempt() != 1) {
+        entry = entry.toBuilder().scheduledFor(entry.getScheduledFor().plusDays(14)).build();
+
+        LearningEntryProto convertedBack = learningEntryConverter.convert(entry);
+        //        learningEntryDao.update(convertedBack);
+      }
     }
   }
 }
