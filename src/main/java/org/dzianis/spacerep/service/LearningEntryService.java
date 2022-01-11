@@ -130,6 +130,9 @@ public class LearningEntryService {
                 learningEntry.getLastMark().toBuilder().setValue(request.getMarkValue()).build())
             .delayInDays(
                 Optional.ofNullable(request.getDelayInDays()).orElse(storedEntry.getDelayInDays()));
+    if (request.getStatus() == Status.ARCHIVED && storedEntry.getStatus() != Status.ARCHIVED) {
+      builder.archivedAt(timeSource.now());
+    }
 
     LearningEntryProto convertedEntry = learningEntryConverter.convert(builder.build());
     learningEntryDao.update(convertedEntry);
