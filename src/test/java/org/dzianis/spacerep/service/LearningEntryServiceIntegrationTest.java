@@ -7,6 +7,7 @@ import org.dzianis.spacerep.controller.model.CreateLearningEntry;
 import org.dzianis.spacerep.converter.ConverterConfig;
 import org.dzianis.spacerep.dao.DaoConfig;
 import org.dzianis.spacerep.dao.DaoConfig.DatastoreBased;
+import org.dzianis.spacerep.dao.DaoConfig.Local;
 import org.dzianis.spacerep.dao.LearningEntryDao;
 import org.dzianis.spacerep.model.LearningEntry;
 import org.junit.jupiter.api.Test;
@@ -23,8 +24,10 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
     loader = AnnotationConfigContextLoader.class)
 class LearningEntryServiceIntegrationTest {
 
-  //  @MockBean LearningEntryDao learningEntryDao;
-  @Autowired @DatastoreBased LearningEntryDao learningEntryDao;
+  //  @MockBean LearningEntryDao datastoreLearningEntryDao;
+  @Autowired @DatastoreBased private LearningEntryDao datastoreLearningEntryDao;
+
+  @Autowired @Local private LearningEntryDao localEntryDao;
 
   @Autowired private LearningEntryService learningEntryService;
 
@@ -287,30 +290,39 @@ class LearningEntryServiceIntegrationTest {
 
   @Test
   void getEntries() {
-    ImmutableList<LearningEntryProto> all = learningEntryDao.getAll();
+    ImmutableList<LearningEntryProto> all = datastoreLearningEntryDao.getAll();
 
     System.out.println("all " + all);
 
     for (LearningEntryProto learningEntryProto : all) {
-      //      learningEntryDao.delete(learningEntryProto.getId());
+      //      datastoreLearningEntryDao.delete(learningEntryProto.getId());
     }
   }
 
   @Test
   void freezeEntries() {
-    ImmutableList<LearningEntryProto> all = learningEntryDao.getAll();
+    ImmutableList<LearningEntryProto> all = datastoreLearningEntryDao.getAll();
 
     System.out.println("all " + all);
 
     for (LearningEntryProto learningEntryProto : all) {
       LearningEntry entry = learningEntryConverter.reverse().convert(learningEntryProto);
-//      if (entry.getAttempt() != 1) {
-        entry = entry.toBuilder().scheduledFor(entry.getScheduledFor().plusDays(21)).build();
+      //      if (entry.getAttempt() != 1) {
+      entry = entry.toBuilder().scheduledFor(entry.getScheduledFor().plusDays(21)).build();
 
-        LearningEntryProto convertedBack = learningEntryConverter.convert(entry);
-        System.out.println("pika");
-//        learningEntryDao.update(convertedBack);
-//      }
+      LearningEntryProto convertedBack = learningEntryConverter.convert(entry);
+      //        datastoreLearningEntryDao.update(convertedBack);
+      //      }
     }
+  }
+
+  @Test
+  void backUp() {
+    ImmutableList<LearningEntryProto> allLocal = datastoreLearningEntryDao.getAll();
+    for (LearningEntryProto entry : allLocal) {
+      localEntryDao.insert(entry);
+    }
+    ImmutableList<LearningEntryProto> all = localEntryDao.getAll();
+    System.out.println("completed: " + all.size());
   }
 }
